@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Invoice} from './invoice';
-import {Http} from '@angular/http';
+import {Http, Response} from '@angular/http';
 import {API_URL} from 'app/constants';
 import 'rxjs/add/operator/map';
 
@@ -14,5 +14,9 @@ export class InvoiceService {
   query(): Observable<Invoice[]> {
     return this.http.get(`${API_URL}/invoice`)
       .map(response => response.json()._embedded.invoice);
+  }
+  mailInvoices() {
+    return this.http.get(`http://localhost:8080/sendInvoices`)
+      .map((res:Response) => res.json());
   }
 }

@@ -23,4 +23,10 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
+  public sendInvoices() {
+    this.invoiceService.mailInvoices().subscribe();
+  }
+
+
+
 }

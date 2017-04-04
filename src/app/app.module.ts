@@ -1,13 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
 
-import { AppComponent } from './app.component';
-import { InvoiceComponent } from './invoice/invoice.component';
+import {AppComponent} from './app.component';
+import {InvoiceComponent} from './invoice/invoice.component';
 import {routing} from './app.routing';
 import {InvoiceService} from './invoice.service';
-import { RegionComponent } from './region/region.component';
+import {RegionComponent} from './region/region.component';
+import {RegionService} from './region.service';
+import { AgmCoreModule } from 'angular2-google-maps/core';
 
 @NgModule({
   declarations: [
@@ -19,9 +21,16 @@ import { RegionComponent } from './region/region.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    routing
+    routing,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAqEk83nB58CAmnDYJskoxrHx2hIelE3Xk'
+    })
   ],
-  providers: [InvoiceService],
+  providers: [
+    InvoiceService,
+    RegionService
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

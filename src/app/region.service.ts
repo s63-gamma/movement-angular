@@ -12,11 +12,11 @@ export class RegionService {
   constructor(private http: Http) { }
 
   public query(): Observable<Region[]> {
-    return this.http.get(`${API_URL}/region`)
+    return this.http.get(`${API_URL}/region/search/findAllByOrderByRadiusDesc`)
       .map(response => response.json()._embedded.region);
   }
 
-  update(region: Region): Observable<Region> {
+  upsert(region: Region): Observable<Region> {
     return this.http.post(`${API_URL}/region`, region)
       .map(response => response.json());
   }

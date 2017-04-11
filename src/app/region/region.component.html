@@ -1,10 +1,150 @@
+<div *ngIf="selectedRegion" bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">{{selectedRegion.name}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group row">
+            <label for="name" class="col-sm-3 col-form-label">Name</label>
+            <div class="col-sm-9 input-group">
+              <input [(ngModel)]="selectedRegion.name"
+                     type="text"
+                     name="name"
+                     class="form-control"
+                     id="name"/>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="longitude" class="col-sm-3 col-form-label">Longitude</label>
+            <div class="col-sm-9 input-group">
+              <input [(ngModel)]="selectedRegion.longitude"
+                     type="number"
+                     step="0.000001"
+                     name="longitude"
+                     class="form-control"
+                     id="longitude"/>
+              <div class="input-group-addon">°</div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="longitude" class="col-sm-3 col-form-label">Latitude</label>
+            <div class="col-sm-9 input-group">
+              <input [(ngModel)]="selectedRegion.latitude"
+                     type="number"
+                     step="0.000001"
+                     class="form-control"
+                     name="latitude"
+                     id="latitude"/>
+              <div class="input-group-addon">°</div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="radius" class="col-sm-3 col-form-label">Radius</label>
+            <div class="col-sm-9 input-group">
+              <input [(ngModel)]="selectedRegion.radius"
+                     type="number"
+                     class="form-control"
+                     name="radius"
+                     id="radius"/>
+              <div class="input-group-addon">m</div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="costMultiplier" class="col-sm-3 col-form-label">Cost Multiplier</label>
+            <div class="col-sm-9 input-group">
+              <input [(ngModel)]="selectedRegion.costMultiplier"
+                     type="number"
+                     step="0.01"
+                     class="form-control"
+                     name="costMultiplier"
+                     id="costMultiplier"/>
+              <div class="input-group-addon">x</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button class="btn btn-primary" (click)="saveModal(selectedRegion)">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="card">
   <div class="card-title">
     <h4 class="display-4 text-center">Select a region to edit it</h4>
   </div>
 </div>
-<div class="row">
-  <div class="col-sm-6">
+
+<tabset #staticTabs>
+  <tab heading="Map">
+    <div class="row">
+      <div class="col-sm-9">
+        <sebm-google-map
+          #map
+          (mapClick)="selectedRegion = null"
+          [latitude]="51.900223"
+          [longitude]="-1.157684"
+          [zoom]="9"
+          [styles]="'transit'"
+          [disableDoubleClickZoom]="true">
+          <sebm-google-map-circle
+            *ngFor="let region of regions; let i = index"
+            (circleClick)="selectedRegion = region;"
+            (circleDblClick)="showModal(region)"
+            (radiusChange)="radiusChanged(region,$event)"
+            (centerChange)="locationChanged(region, $event)"
+            [latitude]="region.latitude"
+            [longitude]="region.longitude"
+            [radius]="region.radius"
+            [circleDraggable]="this.selectedRegion && this.selectedRegion.uuid == region.uuid"
+            [editable]="this.selectedRegion && this.selectedRegion.uuid == region.uuid"
+            [zIndex]="i"
+            [fillColor]="this.selectedRegion && this.selectedRegion.uuid == region.uuid ? 'green': calculateColor(region)"></sebm-google-map-circle>
+          <!--<sebm-google-map-marker *ngFor="let region of regions" [latitude]="region.latitude" [longitude]="region.longitude"></sebm-google-map-marker>-->
+        </sebm-google-map>
+      </div>
+      <div class="col-sm-3 sideview">
+        <tabset>
+          <tab heading="List" class="sideview-content">
+            <ul class="list-group">
+              <li *ngFor="let region of regions" class="list-group-item" (click)="selectedRegion = region"
+                  (dblclick)="gotoRegion(region)">{{region.name}}
+              </li>
+            </ul>
+          </tab>
+          <tab heading="Info" class="sideview-content">
+            <div *ngIf="selectedRegion" class="card">
+              <div class="card-header">Name: {{selectedRegion.name}}</div>
+              <div class="card-block">
+                <p class="card-text">Latitude: {{selectedRegion.latitude}}</p>
+                <p class="card-text">Longitude: {{selectedRegion.longitude}}</p>
+                <p class="card-text">Radius: {{selectedRegion.radius}}</p>
+                <p class="card-text">Cost Multiplier: {{selectedRegion.costMultiplier}}</p>
+              </div>
+            </div>
+            <p *ngIf="!selectedRegion">Pick a region to view it's information</p>
+          </tab>
+        </tabset>
+        <button (click)="selectedRegion = null" [disabled]="selectedRegion === null" class="btn btn-danger btn-block">
+          Clear selection <i class="fa fa-times" aria-hidden="true"></i></button>
+        <button (click)="showModal(selectedRegion)" [disabled]="selectedRegion === null"
+                class="btn btn-info btn-block">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button>
+        <button (click)="save(selectedRegion); selectedRegion = null" [disabled]="selectedRegion === null"
+                class="btn btn-primary btn-block">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+        <button (click)="createRegion()" [disabled]="selectedRegion !== null" class="btn btn-success btn-block">New<i
+          class="fa fa-plus" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </tab>
+  <tab heading="Details">
     <div class="card">
       <div class="card-body">
         <table class="table table-sm card-text">
@@ -18,110 +158,16 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let region of regions" (click)="selectedRegion = region"
-              [ngClass]="{'table-danger':this.selectedRegion && this.selectedRegion.uuid == region.uuid}">
+          <tr *ngFor="let region of regions" (click)="showModal(region)">
             <th scope="row">{{region.name}}</th>
-          <td>{{region.longitude}}</td>
-          <td>{{region.latitude}}</td>
-          <td>{{region.radius}}</td>
-          <td>{{region.costMultiplier}}</td>
+            <td>{{region.longitude}}</td>
+            <td>{{region.latitude}}</td>
+            <td>{{region.radius}}</td>
+            <td>{{region.costMultiplier}}</td>
           </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>
-
-  <div class="col-sm-6">
-    <sebm-google-map
-      (mapClick)="selectedRegion = null"
-      [latitude]="51.900223"
-      [longitude]="-1.157684"
-      [zoom]="9"
-      [styles]="'transit'">
-      <sebm-google-map-circle
-        *ngFor="let region of regions; let i = index"
-        (circleClick)="selectedRegion = region;"
-        (radiusChange)="radiusChanged(region,$event)"
-        (centerChange)="locationChanged(region, $event)"
-        [latitude]="region.latitude"
-        [longitude]="region.longitude"
-        [radius]="region.radius"
-        [circleDraggable]="this.selectedRegion && this.selectedRegion.uuid == region.uuid"
-        [editable]="this.selectedRegion && this.selectedRegion.uuid == region.uuid"
-        [zIndex]="i"
-        [fillColor]="this.selectedRegion && this.selectedRegion.uuid == region.uuid ? 'red' : 'blue'"></sebm-google-map-circle>
-      <!--<sebm-google-map-marker *ngFor="let region of regions" [latitude]="region.latitude" [longitude]="region.longitude"></sebm-google-map-marker>-->
-    </sebm-google-map>
-  </div>
-</div>
-<div class="row justify-content-between">
-  <div class="col-sm-3">
-    <button (click)="selectedRegion = null" class="btn btn-danger btn-block">Clear selection</button>
-  </div>
-  <div *ngIf="selectedRegion" class="card col-sm-6">
-    <div class="card-body">
-      <div class="card-title">
-        <h4>
-          {{selectedRegion.name}}
-        </h4>
-      </div>
-      <div class="card-text">
-        <form>
-          <div class="form-group row">
-            <label for="longitude" class="col-sm-2 col-form-label">Longitude</label>
-            <div class="col-sm-10 input-group">
-              <input [(ngModel)]="selectedRegion.longitude"
-                     type="number"
-                     step="0.000001"
-                     name="longitude"
-                     class="form-control"
-                     id="longitude"/>
-              <div class="input-group-addon">°</div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="longitude" class="col-sm-2 col-form-label">Latitude</label>
-            <div class="col-sm-10 input-group">
-              <input [(ngModel)]="selectedRegion.latitude"
-                     type="number"
-                     step="0.000001"
-                     class="form-control"
-                     name="latitude"
-                     id="latitude"/>
-              <div class="input-group-addon">°</div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="radius" class="col-sm-2 col-form-label">Radius</label>
-            <div class="col-sm-10 input-group">
-              <input [(ngModel)]="selectedRegion.radius"
-                     type="number"
-                     class="form-control"
-                     name="radius"
-                     id="radius"/>
-              <div class="input-group-addon">m</div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="costMultiplier" class="col-sm-2 col-form-label">Cost Multiplier</label>
-            <div class="col-sm-10 input-group">
-              <input [(ngModel)]="selectedRegion.costMultiplier"
-                     type="number"
-                     step="0.01"
-                     class="form-control"
-                     name="costMultiplier"
-                     id="costMultiplier"/>
-              <div class="input-group-addon">x</div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-3">
-    <button (click)="save(regions)" class="btn btn-primary btn-block">Save</button>
-  </div>
-</div>
-
-
+  </tab>
+</tabset>

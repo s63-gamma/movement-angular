@@ -4,6 +4,7 @@ import {Region} from '../region';
 import {Observable} from 'rxjs/Rx';
 import {ModalDirective} from 'ng2-bootstrap';
 import * as faker from 'faker';
+import {UUID} from "angular2-uuid";
 
 
 @Component({
@@ -69,7 +70,7 @@ export class RegionComponent implements OnInit {
   }
 
   public createRegion() {
-    const region: Region = new Region(faker.fake('{{address.cityPrefix}} {{address.city}}'), 0, 0, 10000, 1, '');
+    const region: Region = new Region(faker.fake('{{address.cityPrefix}} {{address.city}}'), 0, 0, 10000, 1, UUID.UUID());
 
     this.regions.push(region);
     this.selectedRegion = region;

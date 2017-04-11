@@ -1,0 +1,27 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>Emailadres</th>
+    <th>Name</th>
+    <th>Surname</th>
+    <th>Phonenumber</th>
+    <th>Residence</th>
+  </tr>
+
+  </thead>
+  <tbody>
+  <tr *ngFor="let owner of owners">
+    <th scope="row">{{owner.uuid}}</th>
+
+    <td>{{owner.username}}</td>
+    <td>{{owner.emailadres}}</td>
+    <td>{{owner.name}}</td>
+    <td>{{owner.surname}}</td>
+    <td>{{owner.phoneNumber}}</td>
+    <td>{{owner.residence}}</td>
+  </tr>
+  </tbody>
+
+</table>

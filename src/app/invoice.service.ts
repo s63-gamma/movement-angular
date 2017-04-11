@@ -16,7 +16,7 @@ export class InvoiceService {
       .map(response => response.json()._embedded.invoice);
   }
   mailInvoices() {
-    return this.http.get(`http://localhost:8080/sendInvoices`)
+    return this.http.get(`${API_URL}/sendInvoices`)
       .map((res:Response) => res.json());
   }
 }

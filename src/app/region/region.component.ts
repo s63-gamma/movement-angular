@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RegionService} from '../region.service';
 import {Region} from '../region';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
 
 @Component({
   selector: 'app-region',

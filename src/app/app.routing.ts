@@ -2,6 +2,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {InvoiceComponent} from './invoice/invoice.component';
 import {ModuleWithProviders} from '@angular/core';
 import {RegionComponent} from './region/region.component';
+import {CarComponent} from './car/car.component';
 const appRoutes: Routes = [
   {
     component: InvoiceComponent,
@@ -10,6 +11,10 @@ const appRoutes: Routes = [
   {
     component: RegionComponent,
     path: 'region'
+  },
+  {
+    component: CarComponent,
+    path: 'car'
   }
 ];
 

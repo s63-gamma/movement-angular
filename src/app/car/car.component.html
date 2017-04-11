@@ -1,0 +1,118 @@
+<tabset #staticTabs>
+  <tab heading="Map">
+    <div class="row" *ngIf="cars">
+      <div class="col-sm-9">
+        <sebm-google-map
+          #map
+          (mapClick)="selectedCar = null"
+          [latitude]="51.900223"
+          [longitude]="-1.157684"
+          [zoom]="12"
+          [styles]="'transit'"
+          [disableDoubleClickZoom]="true">
+          <div *ngIf="gpsPoints">
+            <div *ngIf="selectedCar == null">
+              <div *ngFor="let car of cars">
+                <sebm-google-map-marker
+                  *ngIf="car.latestGpsPoint"
+                  (markerDblClick)="selectedCar = car"
+                  [latitude]="car.latestGpsPoint.latitude"
+                  [longitude]="car.latestGpsPoint.longitude"
+                  [iconUrl]="'https://mt.googleapis.com/vt/icon/name=icons/onion/27-cabs.png&scale=0.75'">
+                  <sebm-google-map-info-window>
+                    {{car.licensePlate}}
+                    <button class="btn btn-primary btn-sm" (click)="selectedCar = car">Show movement</button>
+                  </sebm-google-map-info-window>
+                </sebm-google-map-marker>
+              </div>
+            </div>
+            <div *ngIf="selectedCar">
+              <sebm-google-map-marker
+                *ngFor="let gpsPoint of selectedCar.gpsPoints"
+                [latitude]="gpsPoint.latitude"
+                [longitude]="gpsPoint.longitude"
+                [iconUrl]="'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'"
+                [opacity]="gpsPoint.opacity">
+                <sebm-google-map-info-window>
+                  {{gpsPoint.date.epochSecond}}
+                </sebm-google-map-info-window>
+              </sebm-google-map-marker>
+            </div>
+          </div>
+          <!--<sebm-google-map-circle-->
+          <!--*ngFor="let region of regions; let i = index"-->
+          <!--(circleClick)="selectedCar = region;"-->
+          <!--(circleDblClick)="showModal(region)"-->
+          <!--(radiusChange)="radiusChanged(region,$event)"-->
+          <!--(centerChange)="locationChanged(region, $event)"-->
+          <!--[latitude]="region.latitude"-->
+          <!--[longitude]="region.longitude"-->
+          <!--[radius]="region.radius"-->
+          <!--[circleDraggable]="this.selectedCar && this.selectedCar.uuid == region.uuid"-->
+          <!--[editable]="this.selectedCar && this.selectedCar.uuid == region.uuid"-->
+          <!--[zIndex]="i"-->
+          <!--[fillColor]="this.selectedCar && this.selectedCar.uuid == region.uuid ? 'green': calculateColor(region)"></sebm-google-map-circle>-->
+          <!--<sebm-google-map-marker *ngFor="let region of regions" [latitude]="region.latitude" [longitude]="region.longitude"></sebm-google-map-marker>-->
+        </sebm-google-map>
+      </div>
+      <div class="col-sm-3 sideview">
+        <tabset>
+          <tab heading="List" class="sideview-content">
+            <ul class="list-group">
+              <li *ngFor="let car of cars" class="list-group-item" (click)="selectedCar = car"
+                  (dblclick)="gotoCar(car)">{{car.licensePlate}}
+              </li>
+            </ul>
+          </tab>
+          <!--<tab heading="Info" class="sideview-content">-->
+          <!--<div *ngIf="selectedCar" class="card">-->
+          <!--<div class="card-header">Name: {{selectedCar.name}}</div>-->
+          <!--<div class="card-block">-->
+          <!--<p class="card-text">Latitude: {{selectedCar.latitude}}</p>-->
+          <!--<p class="card-text">Longitude: {{selectedCar.longitude}}</p>-->
+          <!--<p class="card-text">Radius: {{selectedCar.radius}}</p>-->
+          <!--<p class="card-text">Cost Multiplier: {{selectedCar.costMultiplier}}</p>-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--<p *ngIf="!selectedCar">Pick a region to view it's information</p>-->
+          <!--</tab>-->
+        </tabset>
+        <!--<button (click)="selectedCar = null" [disabled]="selectedCar === null" class="btn btn-danger btn-block">-->
+        <!--Clear selection <i class="fa fa-times" aria-hidden="true"></i></button>-->
+        <!--<button (click)="showModal(selectedCar)" [disabled]="selectedCar === null"-->
+        <!--class="btn btn-info btn-block">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button>-->
+        <!--<button (click)="save(selectedCar); selectedCar = null" [disabled]="selectedCar === null"-->
+        <!--class="btn btn-primary btn-block">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>-->
+        <!--<button (click)="createRegion()" [disabled]="selectedCar !== null" class="btn btn-success btn-block">New<i-->
+        <!--class="fa fa-plus" aria-hidden="true"></i></button>-->
+      </div>
+    </div>
+    {{selectedCar | json}}
+  </tab>
+  <tab heading="Details">
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-sm card-text">
+          <thead>
+          <tr>
+            <th>License Plate</th>
+            <!--<th>Longitude</th>-->
+            <!--<th>Latitude</th>-->
+            <!--<th>Radius</th>-->
+            <!--<th>Cost Multiplier</th>-->
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let car of cars">
+            <th scope="row">{{car.licensePlate}}</th>
+            <!--<td>{{region.longitude}}</td>-->
+            <!--<td>{{region.latitude}}</td>-->
+            <!--<td>{{region.radius}}</td>-->
+            <!--<td>{{region.costMultiplier}}</td>-->
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </tab>
+</tabset>

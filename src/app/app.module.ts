@@ -10,12 +10,16 @@ import {InvoiceService} from './invoice.service';
 import {RegionComponent} from './region/region.component';
 import {RegionService} from './region.service';
 import { AgmCoreModule } from 'angular2-google-maps/core';
+import { CarComponent } from './car/car.component';
+import {CarService} from './car.service';
+import {ModalModule, TabsModule} from 'ng2-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     InvoiceComponent,
-    RegionComponent
+    RegionComponent,
+    CarComponent
   ],
   imports: [
     BrowserModule,
@@ -24,11 +28,14 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
     routing,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAqEk83nB58CAmnDYJskoxrHx2hIelE3Xk'
-    })
+    }),
+    TabsModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
     InvoiceService,
-    RegionService
+    RegionService,
+    CarService
   ],
   bootstrap: [AppComponent]
 })

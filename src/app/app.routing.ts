@@ -3,6 +3,7 @@ import {InvoiceComponent} from './invoice/invoice.component';
 import {ModuleWithProviders} from '@angular/core';
 import {RegionComponent} from './region/region.component';
 import {BillComponent} from "./bill/bill.component";
+import {CarComponent} from "./car/car.component";
 const appRoutes: Routes = [
   {
     component: InvoiceComponent,
@@ -15,6 +16,10 @@ const appRoutes: Routes = [
   {
     component: BillComponent,
     path: 'bill'
+  },
+  {
+    component: CarComponent,
+    path:'car'
   }
 ];
 

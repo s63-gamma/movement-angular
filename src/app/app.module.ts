@@ -12,13 +12,17 @@ import {RegionService} from './region.service';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { BillComponent } from './bill/bill.component';
 import {BillService} from "./bill.service";
+import {CarService} from "./car.service";
+import {CarComponent} from "./car/car.component";
+import {TabsModule, ModalModule} from "ng2-bootstrap";
 
 @NgModule({
   declarations: [
     AppComponent,
     InvoiceComponent,
     RegionComponent,
-    BillComponent
+    BillComponent,
+    CarComponent
   ],
   imports: [
     BrowserModule,
@@ -27,12 +31,15 @@ import {BillService} from "./bill.service";
     routing,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAqEk83nB58CAmnDYJskoxrHx2hIelE3Xk'
-    })
+    }),
+    TabsModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
     InvoiceService,
     RegionService,
-    BillService
+    BillService,
+    CarService
   ],
   bootstrap: [AppComponent]
 })

@@ -15,14 +15,18 @@ import {CarService} from './car.service';
 import {ModalModule, TabsModule} from 'ng2-bootstrap';
 import {TrackerComponent} from './tracker/tracker.component';
 import {TrackerService} from './tracker.service';
+import { BillComponent } from './bill/bill.component';
+import {BillService} from "./bill.service";
+
 
 @NgModule({
   declarations: [
     AppComponent,
     InvoiceComponent,
     RegionComponent,
-    CarComponent,
-    TrackerComponent
+    TrackerComponent,
+    BillComponent,
+    CarComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,8 @@ import {TrackerService} from './tracker.service';
     InvoiceService,
     RegionService,
     CarService,
-    TrackerService
+    TrackerService,
+    BillService,
   ],
   bootstrap: [AppComponent]
 })

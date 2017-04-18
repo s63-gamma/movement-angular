@@ -13,13 +13,16 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
 import { CarComponent } from './car/car.component';
 import {CarService} from './car.service';
 import {ModalModule, TabsModule} from 'ng2-bootstrap';
+import {TrackerComponent} from './tracker/tracker.component';
+import {TrackerService} from './tracker.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     InvoiceComponent,
     RegionComponent,
-    CarComponent
+    CarComponent,
+    TrackerComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import {ModalModule, TabsModule} from 'ng2-bootstrap';
   providers: [
     InvoiceService,
     RegionService,
-    CarService
+    CarService,
+    TrackerService
   ],
   bootstrap: [AppComponent]
 })

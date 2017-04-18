@@ -1,0 +1,27 @@
+<p>
+  cartracker works!
+</p>
+<div>
+</div>
+
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Authorisation Code</th>
+    <th>Serial Number</th>
+    <th>Type</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let tracker of trackers">
+    <th scope="row">{{tracker.uuid}}</th>
+    <td>{{tracker.authorisationCode}}</td>
+    <td>{{tracker.serialNumber}}</td>
+    <td>{{tracker.type}}</td>
+  </tr>
+  </tbody>
+</table>
+
+<button (click)="sendTrackers()">Send trackers</button>

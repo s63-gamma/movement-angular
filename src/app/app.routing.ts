@@ -3,6 +3,7 @@ import {InvoiceComponent} from './invoice/invoice.component';
 import {ModuleWithProviders} from '@angular/core';
 import {RegionComponent} from './region/region.component';
 import {CarComponent} from './car/car.component';
+import {TrackerComponent} from './tracker/tracker.component';
 const appRoutes: Routes = [
   {
     component: InvoiceComponent,
@@ -15,6 +16,10 @@ const appRoutes: Routes = [
   {
     component: CarComponent,
     path: 'car'
+  },
+  {
+    component: TrackerComponent,
+    path: 'tracker'
   }
 ];
 

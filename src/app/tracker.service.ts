@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Invoice} from './invoice';
+import {Tracker} from './tracker';
 import {Http, Response} from '@angular/http';
 import {API_URL} from 'app/constants';
 import 'rxjs/add/operator/map';
 
 
 @Injectable()
-export class InvoiceService {
+export class TrackerService {
 
   constructor(private http: Http) { }
 
-  query(): Observable<Invoice[]> {
-    return this.http.get(`${API_URL}/invoice`)
-      .map(response => response.json()._embedded.invoice);
+  query(): Observable<Tracker[]> {
+    return this.http.get(`${API_URL}/tracker`)
+      .map(response => response.json()._embedded.tracker);
   }
-  mailInvoices() {
-    return this.http.get(`${API_URL}/sendInvoices`)
+
+  mailTrackers() {
+    return this.http.get(`${API_URL}/sendTrackers`)
       .map((res:Response) => res.json());
   }
 }

@@ -1,3 +1,15 @@
+$height: 800px;
+$button-height: 220px;
+
 .sebm-google-map-container {
-  height: 400px;
+  height: $height;
+}
+
+.sideview {
+  height: $height;
+}
+
+.sideview-content{
+  height: $height - $button-height;
+  overflow-y: auto;
 }

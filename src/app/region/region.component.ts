@@ -44,11 +44,11 @@ export class RegionComponent implements OnInit {
   }
 
   public calculateColor(region: Region): String {
-    const minCost = 1;
+    const minCost = 0;
     const maxCost = 2.5;
     const minColor = 120;
     const maxColor = 360;
-    const color = (region.costMultiplier - minCost) / (maxCost - minCost) * (maxColor - minColor) + minColor;
+    const color = Math.max(0, Math.min(2.5, region.costMultiplier - minCost)) / (maxCost - minCost) * (maxColor - minColor) + minColor;
 
     return `hsl(${color}, 100%, 50%)`;
 

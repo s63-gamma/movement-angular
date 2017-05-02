@@ -18,6 +18,8 @@ import {TrackerService} from './tracker.service';
 import { BillComponent } from './bill/bill.component';
 import {BillService} from "./bill.service";
 
+import { DataTablesModule } from 'angular-datatables';
+
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import {BillService} from "./bill.service";
     FormsModule,
     HttpModule,
     routing,
+    DataTablesModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAqEk83nB58CAmnDYJskoxrHx2hIelE3Xk'
     }),

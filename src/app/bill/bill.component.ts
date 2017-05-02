@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BillService} from "../bill.service";
 import {owner} from "../owner";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-bill',
@@ -21,6 +22,16 @@ export class BillComponent implements OnInit {
 
       this.owners = owners;
       console.log(this.owners[0].emailadres);
+    });
+  }
+
+  public save() {
+    const observables: Observable<owner>[] = [];
+    this.owners.forEach(owner => {
+      observables.push(this.billService.update(owner));
+    });
+    Observable.forkJoin(observables).subscribe(result => {
+      console.log(result);
     });
   }
 

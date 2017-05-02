@@ -15,6 +15,12 @@ export class InvoiceService {
     return this.http.get(`${API_URL}/invoice`)
       .map(response => response.json()._embedded.invoice);
   }
+
+  update(invoice: Invoice): Observable<Invoice> {
+    return this.http.post(`${API_URL}/invoice`, invoice)
+      .map(response => response.json());
+  }
+
   mailInvoices() {
     return this.http.get(`${API_URL}/sendInvoices`)
       .map((res:Response) => res.json());

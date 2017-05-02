@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {InvoiceService} from '../invoice.service';
 import {Invoice} from '../invoice';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-invoice',
@@ -14,6 +15,7 @@ export class InvoiceComponent implements OnInit {
 
   ngOnInit() {
     this.getInvoices();
+
   }
 
   public getInvoices() {
@@ -23,7 +25,18 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-  public sendInvoices() {
+  public save() {
+    const observables: Observable<Invoice>[] = [];
+    this.invoices.forEach(region => {
+      observables.push(this.invoiceService.update(region));
+    });
+
+    Observable.forkJoin(observables).subscribe(result => {
+      console.log(result);
+    });
+  }
+
+  public mailInvoices() {
     this.invoiceService.mailInvoices().subscribe();
   }
 

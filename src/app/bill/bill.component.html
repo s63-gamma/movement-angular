@@ -1,4 +1,4 @@
-<table class="table">
+<table datatable class="row-border hover">
   <thead>
   <tr>
     <th>ID</th>
@@ -14,14 +14,21 @@
   <tbody>
   <tr *ngFor="let owner of owners">
     <th scope="row">{{owner.uuid}}</th>
+    <!--<td><input type="text" name="pricetotal-{{owner.username}}" [(ngModel)]="owner.username"></td>-->
+    <td contenteditable="true">{{owner.username}}</td>
+    <td contenteditable="true">{{owner.emailadres}}</td>
+    <td contenteditable="true">{{owner.name}}</td>
+    <td contenteditable="true">{{owner.surname}}</td>
+    <td contenteditable="true">{{owner.phoneNumber}}</td>
+    <td contenteditable="true">{{owner.residence}}</td>
 
-    <td>{{owner.username}}</td>
-    <td>{{owner.emailadres}}</td>
-    <td>{{owner.name}}</td>
-    <td>{{owner.surname}}</td>
-    <td>{{owner.phoneNumber}}</td>
-    <td>{{owner.residence}}</td>
+    <!--<td><input type="text" name="pricetotal-{{owner.emailadres}}" [(ngModel)]="owner.emailadres"></td>
+    <td><input type="text" name="pricetotal-{{owner.name}}" [(ngModel)]="owner.name"></td>
+    <td><input type="text" name="pricetotal-{{owner.surname}}" [(ngModel)]="owner.surname"></td>
+    <td><input type="text" name="pricetotal-{{owner.phoneNumber}}" [(ngModel)]="owner.phoneNumber"></td>
+    <td><input type="text" name="pricetotal-{{owner.residence}}" [(ngModel)]="owner.residence"></td>-->
   </tr>
   </tbody>
+  <button class="btn-primary" (click)="save()">Update</button>
 
 </table>

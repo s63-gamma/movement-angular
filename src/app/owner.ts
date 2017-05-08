@@ -5,7 +5,8 @@ export class owner {
               public name: String,
               public surname: String,
               public phoneNumber: String,
-              public residence: String) {
+              public residence: String,
+              public carOwner: { car }) {
 
   }
 

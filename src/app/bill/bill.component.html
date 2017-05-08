@@ -1,5 +1,6 @@
-<table datatable class="row-border hover">
-  <thead>
+<br>
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+<thead>
   <tr>
     <th>ID</th>
     <th>Username</th>
@@ -14,21 +15,16 @@
   <tbody>
   <tr *ngFor="let owner of owners">
     <th scope="row">{{owner.uuid}}</th>
-    <!--<td><input type="text" name="pricetotal-{{owner.username}}" [(ngModel)]="owner.username"></td>-->
-    <td contenteditable="true">{{owner.username}}</td>
-    <td contenteditable="true">{{owner.emailadres}}</td>
-    <td contenteditable="true">{{owner.name}}</td>
-    <td contenteditable="true">{{owner.surname}}</td>
-    <td contenteditable="true">{{owner.phoneNumber}}</td>
-    <td contenteditable="true">{{owner.residence}}</td>
-
-    <!--<td><input type="text" name="pricetotal-{{owner.emailadres}}" [(ngModel)]="owner.emailadres"></td>
-    <td><input type="text" name="pricetotal-{{owner.name}}" [(ngModel)]="owner.name"></td>
-    <td><input type="text" name="pricetotal-{{owner.surname}}" [(ngModel)]="owner.surname"></td>
-    <td><input type="text" name="pricetotal-{{owner.phoneNumber}}" [(ngModel)]="owner.phoneNumber"></td>
-    <td><input type="text" name="pricetotal-{{owner.residence}}" [(ngModel)]="owner.residence"></td>-->
+    <td><input type="text" name="{{owner.username}}" [(ngModel)]="owner.username"><p style="font-size: 0">{{owner.username}} </p></td>
+    <td><input type="text" name="{{owner.emailadres}}" [(ngModel)]="owner.emailadres"><p style="font-size: 0">{{owner.emailadres}}</p></td>
+    <td><input type="text" name="{{owner.name}}" [(ngModel)]="owner.name"><p style="font-size: 0">{{owner.name}}</p></td>
+    <td><input type="text" name="{{owner.surname}}" [(ngModel)]="owner.surname"><p style="font-size: 0">{{owner.surname}}</p></td>
+    <td><input type="text" name="{{owner.phoneNumber}}" [(ngModel)]="owner.phoneNumber"><p style="font-size: 0">{{owner.phoneNumber}}</p></td>
+    <td><input type="text" name="{{owner.residence}}" [(ngModel)]="owner.residence"><p style="font-size: 0">{{owner.residence}}</p></td>
   </tr>
   </tbody>
-  <button class="btn-primary" (click)="save()">Update</button>
-
 </table>
+<br>
+<button (click)="save()" class="btn btn-success btn-block">Save<i
+   aria-hidden="true"></i></button>
+<br>

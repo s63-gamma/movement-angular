@@ -1,4 +1,4 @@
-<table class="table">
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
   <thead>
   <tr>
     <th>ID</th>
@@ -14,9 +14,9 @@
     <td><input type="text" name="pricetotal-{{invoice}}" [(ngModel)]="invoice.priceTotal"></td>
     <td><input type="text" name="status-{{invoice}}" [(ngModel)]="invoice.status"></td>
 
+    <button type="button" class="btn btn-primary" (click)="mailInvoices(invoice.uuid)">Mail invoices</button>
   </tr>
   </tbody>
 </table>
 
-<button class="btn-primary" (click)="mailInvoices()">Mail invoices</button>
 <button class="btn-primary" (click)="save()">Update invoices</button>

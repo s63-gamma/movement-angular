@@ -21,8 +21,8 @@ export class InvoiceService {
       .map(response => response.json());
   }
 
-  mailInvoices() {
-    return this.http.get(`${API_URL}/sendInvoices`)
+  mailInvoices(id: String) {
+    return this.http.get(`${API_URL}/mailInvoice/` + id)
       .map((res:Response) => res.json());
   }
 }

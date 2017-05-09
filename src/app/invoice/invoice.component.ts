@@ -36,8 +36,8 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-  public mailInvoices() {
-    this.invoiceService.mailInvoices().subscribe();
+  public mailInvoices(id: String) {
+    this.invoiceService.mailInvoices(id).subscribe();
   }
 
 

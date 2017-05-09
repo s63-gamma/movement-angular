@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {BillService} from "../bill.service";
-import {owner} from "../owner";
 import {Observable} from "rxjs";
-import { Http, Response } from '@angular/http';
 import { Subject } from 'rxjs/Rx';
 
 import 'rxjs/add/operator/map';
+import {Owner} from "../owner";
 @Component({
   selector: 'app-bill',
   templateUrl: './bill.component.html',
@@ -13,9 +12,9 @@ import 'rxjs/add/operator/map';
 })
 export class BillComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<owner> = new Subject();
+  dtTrigger: Subject<Owner> = new Subject();
 
-  private owners: owner[];
+  private owners: Owner[];
   constructor(private billService:BillService) { }
 
   ngOnInit() {
@@ -24,15 +23,19 @@ export class BillComponent implements OnInit {
 
   public getBillers() {
     this.billService.query().subscribe(owners => {
-      this.dtTrigger.next();
       this.owners = owners;
+      this.dtTrigger.next();
     });
   }
 
   public save() {
-    const observables: Observable<owner>[] = [];
+    const observables: Observable<Owner>[] = [];
     this.owners.forEach(owner => {
       observables.push(this.billService.update(owner));
+    });
+
+    Observable.forkJoin(observables).subscribe(result => {
+      console.log(result);
     });
   }
 

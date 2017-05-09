@@ -1,5 +1,6 @@
-<table class="table">
-  <thead>
+<br>
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+<thead>
   <tr>
     <th>ID</th>
     <th>Authorisation Code</th>
@@ -10,11 +11,12 @@
   <tbody>
   <tr *ngFor="let tracker of trackers">
     <th scope="row">{{tracker.uuid}}</th>
-    <td>{{tracker.authorisationCode}}</td>
-    <td>{{tracker.serialNumber}}</td>
-    <td>{{tracker.type}}</td>
+    <td><input type="text" name="{{tracker.authorisationCode}}" [(ngModel)]="tracker.authorisationCode"><p style="font-size: 0">{{tracker.authorisationCode}} </p></td>
+    <td><input type="text" name="{{tracker.serialNumber}}" [(ngModel)]="tracker.serialNumber"><p style="font-size: 0">{{tracker.serialNumber}} </p></td>
+    <td><input type="text" name="{{tracker.type}}" [(ngModel)]="tracker.type"><p style="font-size: 0">{{tracker.type}} </p></td>
   </tr>
   </tbody>
 </table>
 
 <button (click)="sendTrackers()">Send trackers</button>
+<button class="btn-primary" (click)="save()">Update trackers</button>

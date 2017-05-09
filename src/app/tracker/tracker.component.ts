@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {TrackerService} from '../tracker.service';
 import {Tracker} from '../tracker';
+import {Observable} from "rxjs";
+import { Subject } from 'rxjs/Rx';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-tracker',
@@ -9,6 +12,8 @@ import {Tracker} from '../tracker';
 })
 export class TrackerComponent implements OnInit {
   private trackers: Tracker[];
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<Tracker> = new Subject();
 
   constructor(private trackerService: TrackerService) { }
 
@@ -20,11 +25,23 @@ export class TrackerComponent implements OnInit {
     this.trackerService.query().subscribe(trackers => {
       console.log(trackers)
       this.trackers = trackers;
+      this.dtTrigger.next();
     });
   }
 
   public sendTrackers() {
     this.trackerService.mailTrackers().subscribe();
+  }
+
+  public save() {
+    const observables: Observable<Tracker>[] = [];
+    this.trackers.forEach(tracker => {
+      observables.push(this.trackerService.update(tracker));
+    });
+
+    Observable.forkJoin(observables).subscribe(result => {
+      console.log(result);
+    });
   }
 
 

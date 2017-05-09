@@ -20,4 +20,9 @@ export class TrackerService {
     return this.http.get(`${API_URL}/sendTrackers`)
       .map((res:Response) => res.json());
   }
+
+  update(owner: Tracker): Observable<Tracker> {
+    return this.http.post(`${API_URL}/tracker`, owner)
+      .map(response => response.json());
+  }
 }

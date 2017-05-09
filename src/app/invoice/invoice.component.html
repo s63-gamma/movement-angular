@@ -1,3 +1,4 @@
+<br>
 <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
   <thead>
   <tr>
@@ -11,8 +12,8 @@
   <tr *ngFor="let invoice of invoices">
     <th scope="row">{{invoice.uuid}}</th>
     <td>Gerben</td>
-    <td><input type="text" name="pricetotal-{{invoice}}" [(ngModel)]="invoice.priceTotal"></td>
-    <td><input type="text" name="status-{{invoice}}" [(ngModel)]="invoice.status"></td>
+    <td><input type="text" name="{{invoice.priceTotal}}" [(ngModel)]="invoice.priceTotal"><p style="font-size: 0">{{invoice.priceTotal}} </p></td>
+    <td><input type="text" name="{{invoice.status}}" [(ngModel)]="invoice.status"><p style="font-size: 0">{{invoice.status}} </p></td>
 
     <button type="button" class="btn btn-primary" (click)="mailInvoices(invoice.uuid)">Mail invoices</button>
   </tr>

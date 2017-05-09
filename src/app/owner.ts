@@ -1,4 +1,4 @@
-export class owner {
+export class Owner {
   constructor(public uuid: String,
               public username: String,
               public emailadres: String,

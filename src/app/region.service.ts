@@ -4,12 +4,13 @@ import {Observable} from 'rxjs/Observable';
 import {API_URL} from './constants';
 import {Region} from './region';
 import 'rxjs/add/operator/map';
+import {HttpService} from "./http.service";
 
 
 @Injectable()
 export class RegionService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpService) { }
 
   public query(): Observable<Region[]> {
     return this.http.get(`${API_URL}/region/search/findAllByOrderByRadiusDesc`)

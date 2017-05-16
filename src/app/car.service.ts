@@ -4,11 +4,12 @@ import {Car} from './car';
 import {API_URL} from './constants';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
+import {HttpService} from "./http.service";
 
 @Injectable()
 export class CarService {
 
-  constructor(private http: Http) {
+  constructor(private http: HttpService) {
   }
 
   public query(): Observable<Car[]> {

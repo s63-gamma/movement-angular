@@ -23,6 +23,6 @@ export class InvoiceService {
 
   mailInvoices(id: String) {
     return this.http.get(`${API_URL}/mailInvoice/` + id)
-      .map((res:Response) => res.json());
+      .map(res => res.json());
   }
 }

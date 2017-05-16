@@ -4,12 +4,13 @@ import {Tracker} from './tracker';
 import {Http, Response} from '@angular/http';
 import {API_URL} from 'app/constants';
 import 'rxjs/add/operator/map';
+import {HttpService} from './http.service';
 
 
 @Injectable()
 export class TrackerService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpService) { }
 
   query(): Observable<Tracker[]> {
     return this.http.get(`${API_URL}/tracker`)

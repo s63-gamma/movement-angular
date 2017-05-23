@@ -3,7 +3,6 @@ import {BillService} from "../bill.service";
 import {Observable} from "rxjs";
 import { Subject } from 'rxjs/Rx';
 
-import 'rxjs/add/operator/map';
 import {Owner} from "../owner";
 import {Car} from "../car";
 

@@ -26,4 +26,8 @@ export class InvoiceService {
     return this.http.get(`${API_URL}/mailInvoice/` + id)
       .map(res => res.json());
   }
+
+  delete(invoice: Invoice) : Observable<Invoice>  {
+    return this.http.delete(`${API_URL}/invoice/` + invoice.uuid).map(response => response.json());
+  }
 }

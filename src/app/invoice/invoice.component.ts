@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {InvoiceService} from '../invoice.service';
 import {Invoice} from '../invoice';
 import {Observable} from "rxjs";
-import {forEach} from "@angular/router/src/utils/collection";
+import { Subject } from 'rxjs/Rx';
+
 
 @Component({
   selector: 'app-invoice',
@@ -11,25 +12,27 @@ import {forEach} from "@angular/router/src/utils/collection";
 })
 export class InvoiceComponent implements OnInit {
   public invoices: Invoice[] = [];
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<Invoice> = new Subject();
 
   constructor(private invoiceService: InvoiceService) { }
 
   ngOnInit() {
     this.getInvoices();
-
   }
 
   public getInvoices() {
     this.invoiceService.query().subscribe(invoices => {
-      console.log(invoices)
+      //console.log(invoices)
       this.invoices = invoices;
+      this.dtTrigger.next();
     });
   }
 
   public save() {
     const observables: Observable<Invoice>[] = [];
-    this.invoices.forEach(region => {
-      observables.push(this.invoiceService.update(region));
+    this.invoices.forEach(invoice => {
+      observables.push(this.invoiceService.update(invoice));
     });
 
     Observable.forkJoin(observables).subscribe(result => {
@@ -62,6 +65,22 @@ export class InvoiceComponent implements OnInit {
       msg: text,
       timeout: 5000
     });
+  }
+
+  public delete(invoice : Invoice) {
+    var observable: Observable<Invoice>;
+
+    observable = this.invoiceService.delete(invoice);
+    console.log(observable);
+    this.invoices.splice(this.invoices.lastIndexOf(invoice), 1);
+
+    Observable.forkJoin(observable).subscribe(result => {
+      console.log(result);
+    });
+  }
+
+  public createInvoice(){
+    this.invoices.splice(0, 0, new Invoice(null, new Date(), null, null, null, null, null));
   }
 
 

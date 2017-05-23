@@ -4,6 +4,7 @@ export class Invoice {
               public distance: number,
               public priceTotal: number,
               public status: number,
-              public paymentCode: number) {
+              public paymentCode: number,
+              public checked: boolean = false) {
   }
 }

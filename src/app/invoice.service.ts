@@ -4,12 +4,13 @@ import {Invoice} from './invoice';
 import {Http, Response} from '@angular/http';
 import {API_URL} from 'app/constants';
 import 'rxjs/add/operator/map';
+import {HttpService} from "./http.service";
 
 
 @Injectable()
 export class InvoiceService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpService) { }
 
   query(): Observable<Invoice[]> {
     return this.http.get(`${API_URL}/invoice`)

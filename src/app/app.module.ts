@@ -17,8 +17,10 @@ import {TrackerComponent} from './tracker/tracker.component';
 import {TrackerService} from './tracker.service';
 import { BillComponent } from './bill/bill.component';
 import {BillService} from "./bill.service";
+import {AlertModule } from 'ngx-bootstrap/alert';
 
-import { DataTablesModule } from 'angular-datatables';
+import {DataTablesModule } from 'angular-datatables';
+import {HttpService} from "./http.service";
 
 
 @NgModule({
@@ -40,7 +42,8 @@ import { DataTablesModule } from 'angular-datatables';
       apiKey: 'AIzaSyAqEk83nB58CAmnDYJskoxrHx2hIelE3Xk'
     }),
     TabsModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    AlertModule.forRoot()
   ],
   providers: [
     InvoiceService,
@@ -48,6 +51,7 @@ import { DataTablesModule } from 'angular-datatables';
     CarService,
     TrackerService,
     BillService,
+    HttpService
   ],
   bootstrap: [AppComponent]
 })

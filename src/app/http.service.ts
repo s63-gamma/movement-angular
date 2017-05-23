@@ -20,7 +20,7 @@ export class HttpService {
   }
 
   public setHeaders(): Headers {
-    const encoded = sessionStorage.getItem('auth') || btoa('rickrongen:aapje');
+    const encoded = sessionStorage.getItem('auth') || btoa('frankhartman:aapje');
 
     const headers: Headers = new Headers();
     headers.append('Authorization', `Basic ${encoded}`);

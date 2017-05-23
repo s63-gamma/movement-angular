@@ -17,13 +17,17 @@ export class TrackerService {
       .map(response => response.json()._embedded.tracker);
   }
 
-  mailTrackers() {
-    return this.http.get(`${API_URL}/sendTrackers`)
-      .map((res:Response) => res.json());
-  }
-
   update(owner: Tracker): Observable<Tracker> {
     return this.http.post(`${API_URL}/tracker`, owner)
+      .map(response => response.json());
+  }
+
+  delete(tracker: Tracker) : Observable<Tracker>  {
+    return this.http.delete(`${API_URL}/tracker/` + tracker.uuid).map(response => response.json());
+  }
+
+  create(tracker: Tracker): Observable<Tracker> {
+    return this.http.post(`${API_URL}/tracker`, tracker)
       .map(response => response.json());
   }
 }

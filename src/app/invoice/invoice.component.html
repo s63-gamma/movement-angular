@@ -6,15 +6,16 @@
     <th>Name</th>
     <th>Amount</th>
     <th>Status</th>
+    <th>Mail invoice</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let invoice of invoices">
     <input type="checkbox" [(ngModel)]="invoice.checked" />
-    <th scope="row">{{invoice.date}}</th>
-    <td>Gerben</td>
-    <td><input type="text" name="pricetotal-{{invoice}}" [(ngModel)]="invoice.priceTotal"></td>
-    <td><input type="text" name="status-{{invoice}}" [(ngModel)]="invoice.status"></td>
+    <th scope="row">{{invoice.date|date}}</th>
+    <th scope="row">{{invoice.owner.name}}</th>
+    <td><input type="text" name="pricetotal-{{invoice}}" [(ngModel)]="invoice.priceTotal" size="5"></td>
+    <td><input type="text" name="status-{{invoice}}" [(ngModel)]="invoice.status" size="1"></td>
 
     <button type="button" class="btn btn-primary" (click)="mailInvoice(invoice.uuid)">Mail invoices</button>
   </tr>

@@ -15,9 +15,12 @@ export class BillService {
       .map(response => response.json()._embedded.owner);
   }
 
-  update(owner: Owner): Observable<Owner> {
+  upsert(owner: Owner): Observable<Owner> {
     return this.http.post(`${API_URL}/owner`, owner)
       .map(response => response.json());
   }
 
+  delete(owner: Owner) : Observable<Owner>  {
+    return this.http.delete(`${API_URL}/owner/` + owner.uuid).map(response => response.json());
+  }
 }

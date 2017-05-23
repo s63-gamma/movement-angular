@@ -54,13 +54,19 @@
           <!--[fillColor]="this.selectedCar && this.selectedCar.uuid == region.uuid ? 'green': calculateColor(region)"></sebm-google-map-circle>-->
           <!--<sebm-google-map-marker *ngFor="let region of regions" [latitude]="region.latitude" [longitude]="region.longitude"></sebm-google-map-marker>-->
         </sebm-google-map>
+        <br>
+        <!--<button (click)="save()" class="btn btn-primary btn-block">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>-->
+        <!--<button (click)="createCar()" class="btn btn-success btn-block">New <i class="fa fa-plus" aria-hidden="true"></i></button>-->
+        <br>
       </div>
       <div class="col-sm-3 sideview">
         <tabset>
           <tab heading="List" class="sideview-content">
             <ul class="list-group">
-              <li *ngFor="let car of cars" class="list-group-item" (click)="selectedCar = car"
-                  (dblclick)="gotoCar(car)">{{car.licensePlate}}
+              <li *ngFor="let car of cars" class="list-group-item justify-content-between" (click)="selectedCar = car"
+                  (dblclick)="gotoCar(car)"><input type="text" name="{{car.licensePlate}}" [(ngModel)]="car.licensePlate" size="8">
+                <td><button (click)="delete(car)" class="btn btn-danger">Delete</button></td>
+
               </li>
             </ul>
           </tab>

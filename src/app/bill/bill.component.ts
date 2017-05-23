@@ -5,6 +5,8 @@ import { Subject } from 'rxjs/Rx';
 
 import 'rxjs/add/operator/map';
 import {Owner} from "../owner";
+import {Car} from "../car";
+
 @Component({
   selector: 'app-bill',
   templateUrl: './bill.component.html',
@@ -31,7 +33,7 @@ export class BillComponent implements OnInit {
   public save() {
     const observables: Observable<Owner>[] = [];
     this.owners.forEach(owner => {
-      observables.push(this.billService.update(owner));
+      observables.push(this.billService.upsert(owner));
     });
 
     Observable.forkJoin(observables).subscribe(result => {
@@ -39,4 +41,19 @@ export class BillComponent implements OnInit {
     });
   }
 
+  public delete(owner : Owner) {
+    var observable: Observable<Owner>;
+
+    observable = this.billService.delete(owner);
+    console.log(observable);
+    this.owners.splice(this.owners.lastIndexOf(owner), 1);
+
+    Observable.forkJoin(observable).subscribe(result => {
+      console.log(result);
+    });
+  }
+
+  public createOwner(){
+    this.owners.splice(0, 0, new Owner(null, null, null, null, null, null, null, [Car]));
+  }
 }

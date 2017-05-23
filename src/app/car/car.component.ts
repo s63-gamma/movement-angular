@@ -43,6 +43,17 @@ export class CarComponent implements OnInit, OnDestroy {
     });
   }
 
+  public save(){
+    const observables: Observable<Car>[] = [];
+    this.cars.forEach(car => {
+      observables.push(this.carService.upsert(car));
+    });
+
+    Observable.forkJoin(observables).subscribe(result => {
+      console.log(result);
+    });
+  }
+
   private autoRefresh() {
     this.timerSubscription = Observable.timer(5000).first().subscribe(() => {
       this.getCars();
@@ -55,5 +66,21 @@ export class CarComponent implements OnInit, OnDestroy {
     const gpsPoint = car.gpsPoints[0];
     this.mapView._mapsWrapper.panTo({lat: gpsPoint.latitude, lng: gpsPoint.longitude});
     this.mapView._mapsWrapper.setZoom(12);
+  }
+
+  public delete(car : Car) {
+    var observable: Observable<Car>;
+
+    observable = this.carService.delete(car);
+    console.log(observable);
+    this.cars.splice(this.cars.lastIndexOf(car), 1);
+
+    Observable.forkJoin(observable).subscribe(result => {
+      console.log(result);
+    });
+  }
+
+  public createCar(){
+    this.cars.splice(0, 0, new Car(null, null, null, null, null, null, [], null));
   }
 }

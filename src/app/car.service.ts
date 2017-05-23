@@ -34,4 +34,13 @@ export class CarService {
 
     return cars;
   }
+
+  upsert(car: Car): Observable<Car> {
+    return this.http.post(`${API_URL}/car`, car)
+      .map(response => response.json());
+  }
+
+  delete(car: Car) : Observable<Car>  {
+    return this.http.delete(`${API_URL}/car/` + car.uuid).map(response => response.json());
+  }
 }

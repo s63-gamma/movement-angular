@@ -19,6 +19,12 @@ export class HttpService {
     });
   }
 
+  public delete(url) {
+    return this.http.delete(url, {
+      headers: this.setHeaders()
+    });
+  }
+
   public setHeaders(): Headers {
     const encoded = sessionStorage.getItem('auth') || btoa('frankhartman:aapje');
 

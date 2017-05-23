@@ -13,7 +13,7 @@ export class InvoiceService {
   constructor(private http: HttpService) { }
 
   query(): Observable<Invoice[]> {
-    return this.http.get(`${API_URL}/invoice`)
+    return this.http.get(`${API_URL}/invoice?projection=driver`)
       .map(response => response.json()._embedded.invoice);
   }
 

@@ -1,3 +1,4 @@
+import {Owner} from "./owner";
 export class Invoice {
   constructor(public uuid: String,
               public date: Date,
@@ -5,6 +6,7 @@ export class Invoice {
               public priceTotal: number,
               public status: number,
               public paymentCode: number,
-              public checked: boolean = false) {
+              public checked: boolean = false,
+              public owner?: Owner) {
   }
 }

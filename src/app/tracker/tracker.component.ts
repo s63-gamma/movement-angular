@@ -29,10 +29,6 @@ export class TrackerComponent implements OnInit {
     });
   }
 
-  public sendTrackers() {
-    this.trackerService.mailTrackers().subscribe();
-  }
-
   public save() {
     const observables: Observable<Tracker>[] = [];
     this.trackers.forEach(tracker => {
@@ -44,6 +40,20 @@ export class TrackerComponent implements OnInit {
     });
   }
 
+  public delete(tracker : Tracker) {
+    var observable: Observable<Tracker>;
 
+    observable = this.trackerService.delete(tracker);
+    console.log(observable);
+    this.trackers.splice(this.trackers.lastIndexOf(tracker), 1);
+
+    Observable.forkJoin(observable).subscribe(result => {
+      console.log(result);
+    });
+  }
+
+  public createTracker(){
+    this.trackers.splice(0, 0, new Tracker(null, 1 ,null, null));
+  }
 
 }

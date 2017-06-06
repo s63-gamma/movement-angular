@@ -7,6 +7,6 @@ export class Invoice {
               public status: number,
               public paymentCode: number,
               public checked: boolean = false,
-              public owner?: Owner) {
+              public owner?: Owner|any) {
   }
 }

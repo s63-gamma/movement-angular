@@ -15,10 +15,10 @@
   <tr *ngFor="let invoice of invoices">
     <td><input type="checkbox" [(ngModel)]="invoice.checked" /></td>
     <th scope="row">{{invoice.date|date}}</th>
-    <td><input type="text" name="name-{{invoice}}" [(ngModel)]="invoice.owner.name" size="12"><p style="font-size: 0">{{invoice.owner.name}} </p></td>
+    <th scope="row">{{invoice.owner.name}}</th>
     <td><input type="text" name="pricetotal-{{invoice}}" [(ngModel)]="invoice.priceTotal" size="5"><p style="font-size: 0">{{invoice.priceTotal}} </p></td>
     <td><input type="text" name="status-{{invoice}}" [(ngModel)]="invoice.status" size="1"><p style="font-size: 0">{{invoice.status}} </p></td>
-    <td><button type="button" class="btn btn-info" (click)="mailInvoice(invoice.uuid)">Mail invoices</button></td>
+    <td><button type="button" class="btn btn-info" (click)="mailInvoice(invoice.uuid)">Mail invoice</button></td>
     <td><button (click)="delete(invoice)" class="btn btn-danger">Delete</button></td>
   </tr>
   </tbody>
@@ -28,7 +28,7 @@
   <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
 </div>
 <br>
-<!--<button (click)="save()" class="btn btn-primary btn-block">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>-->
+<button (click)="save()" class="btn btn-primary btn-block">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
 <button (click)="mailInvoices()" class="btn btn-info btn-block">Mail selected </button>
 <!--<button (click)="createInvoice()" class="btn btn-success btn-block">New <i class="fa fa-plus" aria-hidden="true"></i></button>-->
 <br>

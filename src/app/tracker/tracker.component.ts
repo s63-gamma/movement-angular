@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TrackerService} from '../tracker.service';
 import {Tracker} from '../tracker';
-import {Observable} from "rxjs";
-import { Subject } from 'rxjs/Rx';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 @Component({
@@ -12,10 +11,9 @@ import 'rxjs/add/operator/map';
 })
 export class TrackerComponent implements OnInit {
   private trackers: Tracker[];
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<Tracker> = new Subject();
 
-  constructor(private trackerService: TrackerService) { }
+  constructor(private trackerService: TrackerService) {
+  }
 
   ngOnInit() {
     this.getTrackers();
@@ -23,9 +21,8 @@ export class TrackerComponent implements OnInit {
 
   public getTrackers() {
     this.trackerService.query().subscribe(trackers => {
-      console.log(trackers)
+      console.log(trackers);
       this.trackers = trackers;
-      this.dtTrigger.next();
     });
   }
 
@@ -40,8 +37,8 @@ export class TrackerComponent implements OnInit {
     });
   }
 
-  public delete(tracker : Tracker) {
-    var observable: Observable<Tracker>;
+  public deleteTracker(tracker: Tracker) {
+    let observable: Observable<Tracker>;
 
     observable = this.trackerService.delete(tracker);
     console.log(observable);
@@ -52,8 +49,8 @@ export class TrackerComponent implements OnInit {
     });
   }
 
-  public createTracker(){
-    this.trackers.splice(0, 0, new Tracker(null, 1 ,null, null));
+  public createTracker() {
+    this.trackers.splice(0, 0, new Tracker(null, 1, null, null));
   }
 
 }

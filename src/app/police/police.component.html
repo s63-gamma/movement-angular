@@ -1,6 +1,6 @@
 <tabset #staticTabs>
   <tab heading="Map">
-    <div class="row" *ngIf="cars">
+    <div class="row" *ngIf="stolenCars">
       <div class="col-sm-9">
         <agm-map
           #map
@@ -12,13 +12,13 @@
           [disableDoubleClickZoom]="true">
           <div *ngIf="gpsPoints">
             <div *ngIf="selectedCar == null">
-              <div *ngFor="let car of cars">
+              <div *ngFor="let car of stolenCars">
                 <agm-marker
                   *ngIf="car.latestGpsPoint"
                   (markerDblClick)="selectedCar = car"
                   [latitude]="car.latestGpsPoint.latitude"
                   [longitude]="car.latestGpsPoint.longitude"
-                  [iconUrl]="'https://mt.googleapis.com/vt/icon/name=icons/onion/27-cabs.png&scale=0.75'">
+                  [iconUrl]="'https://lh4.ggpht.com/J3dyTULA8i9vPGILenjwamaPedEduuRc1iOFjYz5_2yy_V0Y0iCuw64Uc0_7ORwwug=w48'">
                   <agm-info-window>
                     {{car.licensePlate}}
                     <button class="btn btn-primary btn-sm" (click)="selectedCar = car">Show movement</button>
@@ -31,7 +31,7 @@
                 *ngFor="let gpsPoint of selectedCar.gpsPoints"
                 [latitude]="gpsPoint.latitude"
                 [longitude]="gpsPoint.longitude"
-                [iconUrl]="'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'"
+                [iconUrl]="'https://lh4.ggpht.com/J3dyTULA8i9vPGILenjwamaPedEduuRc1iOFjYz5_2yy_V0Y0iCuw64Uc0_7ORwwug=w48'"
                 [opacity]="gpsPoint.opacity">
                 <agm-info-window>
                   {{gpsPoint.date.epochSecond}}
@@ -54,20 +54,13 @@
           <!--[fillColor]="this.selectedCar && this.selectedCar.uuid == region.uuid ? 'green': calculateColor(region)"></sebm-google-map-circle>-->
           <!--<sebm-google-map-marker *ngFor="let region of regions" [latitude]="region.latitude" [longitude]="region.longitude"></sebm-google-map-marker>-->
         </agm-map>
-        </sebm-google-map>
-        <br>
-        <!--<button (click)="save()" class="btn btn-primary btn-block">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>-->
-        <!--<button (click)="createCar()" class="btn btn-success btn-block">New <i class="fa fa-plus" aria-hidden="true"></i></button>-->
-        <br>
       </div>
       <div class="col-sm-3 sideview">
         <tabset>
           <tab heading="List" class="sideview-content">
             <ul class="list-group">
-              <li *ngFor="let car of cars" class="list-group-item justify-content-between" (click)="selectedCar = car"
-                  (dblclick)="gotoCar(car)"><input type="text" name="{{car.licensePlate}}" [(ngModel)]="car.licensePlate" size="8">
-                <td><button (click)="deleteCar(car)" class="btn btn-danger">Delete</button></td>
-
+              <li *ngFor="let car of stolenCars" class="list-group-item" (click)="selectedCar = car"
+                  (dblclick)="gotoCar(car)">{{car.licensePlate}}
               </li>
             </ul>
           </tab>
@@ -102,22 +95,52 @@
           <thead>
           <tr>
             <th>License Plate</th>
-            <!--<th>Longitude</th>-->
-            <!--<th>Latitude</th>-->
-            <!--<th>Radius</th>-->
-            <!--<th>Cost Multiplier</th>-->
+            <th>Last known Longitude</th>
+            <th>Last known Latitude</th>
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let car of cars">
+          <tr *ngFor="let car of stolenCars">
             <th scope="row">{{car.licensePlate}}</th>
-            <!--<td>{{region.longitude}}</td>-->
-            <!--<td>{{region.latitude}}</td>-->
-            <!--<td>{{region.radius}}</td>-->
-            <!--<td>{{region.costMultiplier}}</td>-->
+            <td>{{car.latestGpsPoint.longitude}}</td>
+            <td>{{car.latestGpsPoint.latitude}}</td>
           </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </tab>
+  <tab heading="Report">
+    <div *ngIf="cars && cars.length > 0">
+      <br>
+      <div class="row">
+        <div class="col-md-6">
+          <div  style="height:750px; overflow-y:scroll">
+            <div class="list-group">
+              <div *ngFor="let car of cars" class="list-group-item" (click)="markedCar = car.licensePlate">
+                <h5 class="d-flex w-100">{{car.licensePlate}}</h5>
+                <div class="mb1">
+                  <p>Type: {{car.carType}}</p>
+                  <p>Building year: {{car.buildingYear}}</p>
+                  <!--<p>UUID: {{car.uuid}}</p>-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group">
+            <input
+              [(ngModel)]="markedCar"
+              [typeahead]="cars"
+              typeaheadOptionField="licensePlate"
+              placeholder="Search for license plates"
+              class="form-control">
+            <div class="input-group-btn">
+              <button class="btn btn-danger">Mark as stolen</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </tab>

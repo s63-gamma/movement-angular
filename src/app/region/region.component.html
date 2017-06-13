@@ -87,7 +87,7 @@
   <tab heading="Map">
     <div class="row">
       <div class="col-sm-9">
-        <sebm-google-map
+        <agm-map
           #map
           (mapClick)="selectedRegion = null"
           [latitude]="51.900223"
@@ -95,7 +95,7 @@
           [zoom]="9"
           [styles]="'transit'"
           [disableDoubleClickZoom]="true">
-          <sebm-google-map-circle
+          <agm-circle
             *ngFor="let region of regions; let i = index"
             (circleClick)="selectedRegion = region;"
             (circleDblClick)="showModal(region)"
@@ -107,9 +107,9 @@
             [circleDraggable]="this.selectedRegion && this.selectedRegion.uuid == region.uuid"
             [editable]="this.selectedRegion && this.selectedRegion.uuid == region.uuid"
             [zIndex]="i"
-            [fillColor]="this.selectedRegion && this.selectedRegion.uuid == region.uuid ? 'green': calculateColor(region)"></sebm-google-map-circle>
+            [fillColor]="this.selectedRegion && this.selectedRegion.uuid == region.uuid ? 'green': calculateColor(region)"></agm-circle>
           <!--<sebm-google-map-marker *ngFor="let region of regions" [latitude]="region.latitude" [longitude]="region.longitude"></sebm-google-map-marker>-->
-        </sebm-google-map>
+        </agm-map>
       </div>
       <div class="col-sm-3 sideview">
         <tabset>

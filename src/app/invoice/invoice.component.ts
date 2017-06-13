@@ -3,7 +3,7 @@ import {InvoiceService} from '../invoice.service';
 import {Invoice} from '../invoice';
 import {Observable} from "rxjs";
 import { Subject } from 'rxjs/Rx';
-
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-invoice',
@@ -12,8 +12,7 @@ import { Subject } from 'rxjs/Rx';
 })
 export class InvoiceComponent implements OnInit {
   public invoices: Invoice[] = [];
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<Invoice> = new Subject();
+  public alerts: any = [];
 
   constructor(private invoiceService: InvoiceService) { }
 
@@ -23,9 +22,7 @@ export class InvoiceComponent implements OnInit {
 
   public getInvoices() {
     this.invoiceService.query().subscribe(invoices => {
-      //console.log(invoices)
       this.invoices = invoices;
-      this.dtTrigger.next();
     });
   }
 
@@ -45,19 +42,19 @@ export class InvoiceComponent implements OnInit {
     this.addAlert('Mail has been send');
   }
   public mailInvoices() {
-    let sended: Boolean = false;
-    let amount: number = 0;
-    for(var i = 0; i < this.invoices.length; i++){
-        if (this.invoices[i].checked) {
-          this.invoiceService.mailInvoices(this.invoices[i].uuid);
-          amount += 1;
-          sended = true;
-        }
+    let sent: Boolean = false;
+    let amount = 0;
+    this.invoices.forEach(invoice => {
+      if (invoice.checked) {
+        this.invoiceService.mailInvoices(invoice.uuid);
+        amount += 1;
+        sent = true;
+      }
+    });
+    if (sent) {
+      this.addAlert(amount + ' mail have been send');
     }
-    if (sended)
-      this.addAlert(amount + " mail have been send");
   }
-  public alerts: any = [];
 
   public addAlert(text: String): void {
     this.alerts.push({
@@ -67,8 +64,8 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-  public delete(invoice : Invoice) {
-    var observable: Observable<Invoice>;
+  public deleteInvoice(invoice: Invoice) {
+    let observable: Observable<Invoice>;
 
     observable = this.invoiceService.delete(invoice);
     console.log(observable);
@@ -79,7 +76,7 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-  public createInvoice(){
+  public createInvoice() {
     this.invoices.splice(0, 0, new Invoice(null, new Date(), null, null, null, null, null));
   }
 

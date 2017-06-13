@@ -1,5 +1,6 @@
 <br>
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+<table class="row-border hover">
+<!--<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">-->
 <thead>
   <tr>
     <th>ID</th>
@@ -15,7 +16,7 @@
     <td><input type="text" name="{{tracker.authorisationCode}}" [(ngModel)]="tracker.authorisationCode" size="10"><p style="font-size: 0">{{tracker.authorisationCode}} </p></td>
     <td><input type="text" name="{{tracker.serialNumber}}" [(ngModel)]="tracker.serialNumber" size="10"><p style="font-size: 0">{{tracker.serialNumber}} </p></td>
     <td><input type="text" name="{{tracker.type}}" [(ngModel)]="tracker.type" size="6"><p style="font-size: 0">{{tracker.type}} </p></td>
-    <td><button (click)="delete(tracker)" class="btn btn-danger">Delete</button></td>
+    <td><button (click)="deleteTracker(tracker)" class="btn btn-danger">Delete</button></td>
   </tr>
   </tbody>
 </table>

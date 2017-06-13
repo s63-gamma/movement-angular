@@ -1,6 +1,6 @@
 <br>
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
-<thead>
+<table class="row-border hover">
+  <thead>
   <tr>
     <th>Selected</th>
     <th>Date</th>
@@ -19,7 +19,7 @@
     <td><input type="text" name="pricetotal-{{invoice}}" [(ngModel)]="invoice.priceTotal" size="5"><p style="font-size: 0">{{invoice.priceTotal}} </p></td>
     <td><input type="text" name="status-{{invoice}}" [(ngModel)]="invoice.status" size="1"><p style="font-size: 0">{{invoice.status}} </p></td>
     <td><button type="button" class="btn btn-info" (click)="mailInvoice(invoice.uuid)">Mail invoice</button></td>
-    <td><button (click)="delete(invoice)" class="btn btn-danger">Delete</button></td>
+    <td><button (click)="deleteInvoice(invoice)" class="btn btn-danger">Delete</button></td>
   </tr>
   </tbody>
 </table>

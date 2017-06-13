@@ -11,8 +11,6 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./car.component.scss']
 })
 export class CarComponent implements OnInit, OnDestroy {
-
-
   private timerSubscription: Subscription;
   private carSubscription: Subscription;
   public cars: Car[] = [];
@@ -43,7 +41,7 @@ export class CarComponent implements OnInit, OnDestroy {
     });
   }
 
-  public save(){
+  public save() {
     const observables: Observable<Car>[] = [];
     this.cars.forEach(car => {
       observables.push(this.carService.upsert(car));
@@ -55,7 +53,7 @@ export class CarComponent implements OnInit, OnDestroy {
   }
 
   private autoRefresh() {
-    this.timerSubscription = Observable.timer(5000).first().subscribe(() => {
+    this.timerSubscription = Observable.timer(1000).first().subscribe(() => {
       this.getCars();
       console.log('Refreshing');
     });
@@ -68,10 +66,10 @@ export class CarComponent implements OnInit, OnDestroy {
     this.mapView._mapsWrapper.setZoom(12);
   }
 
-  public delete(car : Car) {
-    var observable: Observable<Car>;
+  public deleteCar(car: Car) {
+    let observable: Observable<Car>;
 
-    observable = this.carService.delete(car);
+    observable = this.carService.deleteCar(car);
     console.log(observable);
     this.cars.splice(this.cars.lastIndexOf(car), 1);
 
@@ -80,7 +78,7 @@ export class CarComponent implements OnInit, OnDestroy {
     });
   }
 
-  public createCar(){
+  public createCar() {
     this.cars.splice(0, 0, new Car(null, null, null, null, null, null, [], null));
   }
 }

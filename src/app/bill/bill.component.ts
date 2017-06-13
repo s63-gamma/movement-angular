@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {BillService} from "../bill.service";
-import {Observable} from "rxjs";
-import { Subject } from 'rxjs/Rx';
+import {Component, OnInit} from '@angular/core';
+import {BillService} from '../bill.service';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Rx';
 
-import {Owner} from "../owner";
-import {Car} from "../car";
+import {Owner} from '../owner';
+import {Car} from '../car';
 
 @Component({
   selector: 'app-bill',
@@ -12,11 +12,11 @@ import {Car} from "../car";
   styleUrls: ['./bill.component.scss']
 })
 export class BillComponent implements OnInit {
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<Owner> = new Subject();
 
   private owners: Owner[];
-  constructor(private billService:BillService) { }
+
+  constructor(private billService: BillService) {
+  }
 
   ngOnInit() {
     this.getBillers();
@@ -25,7 +25,6 @@ export class BillComponent implements OnInit {
   public getBillers() {
     this.billService.query().subscribe(owners => {
       this.owners = owners;
-      this.dtTrigger.next();
     });
   }
 
@@ -40,8 +39,8 @@ export class BillComponent implements OnInit {
     });
   }
 
-  public delete(owner : Owner) {
-    var observable: Observable<Owner>;
+  public delete(owner: Owner) {
+    let observable: Observable<Owner>;
 
     observable = this.billService.delete(owner);
     console.log(observable);
@@ -52,7 +51,7 @@ export class BillComponent implements OnInit {
     });
   }
 
-  public createOwner(){
+  public createOwner() {
     this.owners.splice(0, 0, new Owner(null, null, null, null, null, null, null, [Car]));
   }
 }

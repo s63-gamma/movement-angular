@@ -13,7 +13,12 @@ export class CarService {
   }
 
   public query(): Observable<Car[]> {
-    return this.http.get(`${API_URL}/car?projection=details`)
+    return this.http.get(`${API_URL}/car?projection=details&size=500`)
+      .map(response => response.json()._embedded.car);
+  }
+
+  public queryByStolenCars(): Observable<Car[]> {
+    return this.http.get(`${API_URL}/car/search/findByIsStolen?stolen=true&projection=police&size=500`)
       .map(response => response.json()._embedded.car);
   }
 
@@ -40,7 +45,7 @@ export class CarService {
       .map(response => response.json());
   }
 
-  delete(car: Car) : Observable<Car>  {
+  deleteCar(car: Car) : Observable<Car>  {
     return this.http.delete(`${API_URL}/car/` + car.uuid).map(response => response.json());
   }
 }

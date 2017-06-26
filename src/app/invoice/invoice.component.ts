@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {InvoiceService} from '../invoice.service';
 import {Invoice} from '../invoice';
-import {Observable} from "rxjs";
-import { Subject } from 'rxjs/Rx';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
@@ -12,9 +10,34 @@ import 'rxjs/add/operator/map';
 })
 export class InvoiceComponent implements OnInit {
   public invoices: Invoice[] = [];
+  public selectedInvoices: Invoice[] = [];
   public alerts: any = [];
+  public settings = {
+    selectMode: 'multi',
+    columns: {
+      uuid: {
+        title: 'ID'
+      },
+      date: {
+        title: 'Date'
+      },
+      owner: {
+        title: 'Name'
+      },
+      priceTotal: {
+        title: 'Amount'
+      },
+      status: {
+        title: 'Status'
+      },
+    },
+    actions: {
+      position: 'right'
+    }
+  };
 
-  constructor(private invoiceService: InvoiceService) { }
+  constructor(private invoiceService: InvoiceService) {
+  }
 
   ngOnInit() {
     this.getInvoices();
@@ -22,7 +45,9 @@ export class InvoiceComponent implements OnInit {
 
   public getInvoices() {
     this.invoiceService.query().subscribe(invoices => {
+      invoices.forEach(invoice => invoice.owner = invoice.owner.name);
       this.invoices = invoices;
+      console.log(invoices);
     });
   }
 
@@ -37,23 +62,12 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-  public mailInvoice(id: String) {
-    this.invoiceService.mailInvoices(id).subscribe();
-    this.addAlert('Mail has been send');
-  }
-  public mailInvoices() {
-    let sent: Boolean = false;
-    let amount = 0;
-    this.invoices.forEach(invoice => {
-      if (invoice.checked) {
-        this.invoiceService.mailInvoices(invoice.uuid);
-        amount += 1;
-        sent = true;
-      }
+  public mailInvoices(invoices: Invoice[]) {
+    invoices.forEach(invoice => {
+      this.invoiceService.mailInvoice(invoice.uuid);
     });
-    if (sent) {
-      this.addAlert(amount + ' mail have been send');
-    }
+
+    this.addAlert(`${invoices.length} mail have been sent`);
   }
 
   public addAlert(text: String): void {
@@ -64,24 +78,7 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-  public deleteInvoice(invoice: Invoice) {
-    let observable: Observable<Invoice>;
-
-    observable = this.invoiceService.delete(invoice);
-    console.log(observable);
-    this.invoices.splice(this.invoices.lastIndexOf(invoice), 1);
-
-    Observable.forkJoin(observable).subscribe(result => {
-      console.log(result);
-    });
+  public rowSelected(event) {
+    this.selectedInvoices = event.selected;
   }
-
-  public createInvoice() {
-    this.invoices.splice(0, 0, new Invoice(null, new Date(), null, null, null, null, null));
-  }
-
-
-
-
-
 }

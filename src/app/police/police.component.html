@@ -56,57 +56,40 @@
         </agm-map>
       </div>
       <div class="col-sm-3 sideview">
-        <tabset>
-          <tab heading="List" class="sideview-content">
-            <ul class="list-group">
-              <li *ngFor="let car of stolenCars" class="list-group-item" (click)="selectedCar = car"
-                  (dblclick)="gotoCar(car)">{{car.licensePlate}}
-              </li>
-            </ul>
-          </tab>
-          <!--<tab heading="Info" class="sideview-content">-->
-          <!--<div *ngIf="selectedCar" class="card">-->
-          <!--<div class="card-header">Name: {{selectedCar.name}}</div>-->
-          <!--<div class="card-block">-->
-          <!--<p class="card-text">Latitude: {{selectedCar.latitude}}</p>-->
-          <!--<p class="card-text">Longitude: {{selectedCar.longitude}}</p>-->
-          <!--<p class="card-text">Radius: {{selectedCar.radius}}</p>-->
-          <!--<p class="card-text">Cost Multiplier: {{selectedCar.costMultiplier}}</p>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<p *ngIf="!selectedCar">Pick a region to view it's information</p>-->
-          <!--</tab>-->
-        </tabset>
-        <!--<button (click)="selectedCar = null" [disabled]="selectedCar === null" class="btn btn-danger btn-block">-->
-        <!--Clear selection <i class="fa fa-times" aria-hidden="true"></i></button>-->
-        <!--<button (click)="showModal(selectedCar)" [disabled]="selectedCar === null"-->
-        <!--class="btn btn-info btn-block">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button>-->
-        <!--<button (click)="save(selectedCar); selectedCar = null" [disabled]="selectedCar === null"-->
-        <!--class="btn btn-primary btn-block">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>-->
-        <!--<button (click)="createRegion()" [disabled]="selectedCar !== null" class="btn btn-success btn-block">New<i-->
-        <!--class="fa fa-plus" aria-hidden="true"></i></button>-->
+        <div class="sideview-content">
+          <ul class="list-group">
+            <li *ngFor="let car of stolenCars" class="list-group-item" (click)="selectedCar = car"
+                (dblclick)="gotoCar(car)">
+              {{car.licensePlate}}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </tab>
   <tab heading="Details">
     <div class="card">
       <div class="card-body">
-        <table class="table table-sm card-text">
-          <thead>
-          <tr>
-            <th>License Plate</th>
-            <th>Last known Longitude</th>
-            <th>Last known Latitude</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let car of stolenCars">
-            <th scope="row">{{car.licensePlate}}</th>
-            <td>{{car.latestGpsPoint.longitude}}</td>
-            <td>{{car.latestGpsPoint.latitude}}</td>
-          </tr>
-          </tbody>
-        </table>
+        <ng2-smart-table [settings]="settings" [source]="stolenCars"></ng2-smart-table>
+
+        <!--<table class="table table-sm card-text">-->
+          <!--<thead>-->
+          <!--<tr>-->
+            <!--<th>License Plate</th>-->
+            <!--<th>Last known Longitude</th>-->
+            <!--<th>Last known Latitude</th>-->
+          <!--</tr>-->
+          <!--</thead>-->
+          <!--<tbody>-->
+          <!--<tr *ngFor="let car of stolenCars">-->
+            <!--<th scope="row">{{car.licensePlate}}</th>-->
+            <!--<td *ngIf="car.latestGpsPoint">{{car.latestGpsPoint.longitude}}</td>-->
+            <!--<td *ngIf="!car.latestGpsPoint">UNKNOWN</td>-->
+            <!--<td *ngIf="car.latestGpsPoint">{{car.latestGpsPoint.latitude}}</td>-->
+            <!--<td *ngIf="!car.latestGpsPoint">UNKNOWN</td>-->
+          <!--</tr>-->
+          <!--</tbody>-->
+        <!--</table>-->
       </div>
     </div>
   </tab>
@@ -115,7 +98,7 @@
       <br>
       <div class="row">
         <div class="col-md-6">
-          <div  style="height:750px; overflow-y:scroll">
+          <div style="height:750px; overflow-y:scroll">
             <div class="list-group">
               <div *ngFor="let car of cars" class="list-group-item" (click)="markedCar = car.licensePlate">
                 <h5 class="d-flex w-100">{{car.licensePlate}}</h5>
@@ -137,7 +120,7 @@
               placeholder="Search for license plates"
               class="form-control">
             <div class="input-group-btn">
-              <button class="btn btn-danger">Mark as stolen</button>
+              <button (click)="reportCar(markedCar)" class="btn btn-danger">Mark as stolen</button>
             </div>
           </div>
         </div>

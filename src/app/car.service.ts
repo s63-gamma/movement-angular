@@ -17,8 +17,8 @@ export class CarService {
       .map(response => response.json()._embedded.car);
   }
 
-  public queryByStolenCars(): Observable<Car[]> {
-    return this.http.get(`${API_URL}/car/search/findByIsStolen?stolen=true&projection=police&size=500`)
+  public queryByStolenCars(stolen: boolean = true): Observable<Car[]> {
+    return this.http.get(`${API_URL}/car/search/findByIsStolen?stolen=${stolen}&projection=police&size=500`)
       .map(response => response.json()._embedded.car);
   }
 
@@ -29,6 +29,10 @@ export class CarService {
       const firstDate = Math.min.apply(null, car.gpsPoints.map(e => e.date.epochSecond));
 
       car.latestGpsPoint = car.gpsPoints.filter(gpsPoint => gpsPoint.date.epochSecond === lastDate)[0];
+      if (car.latestGpsPoint) {
+        car.latestLatitude = car.latestGpsPoint.latitude;
+        car.latestLongitude = car.latestGpsPoint.longitude;
+      }
 
       if (car.gpsPoints) {
         car.gpsPoints.map(gpsPoint => {
@@ -45,7 +49,11 @@ export class CarService {
       .map(response => response.json());
   }
 
-  deleteCar(car: Car) : Observable<Car>  {
+  reportStolenCar(licensePlate: string): Observable<number> {
+    return this.http.get(`${API_URL}/reportstolencar?licensePlate=${licensePlate}`).map(response => response.status);
+  }
+
+  deleteCar(car: Car): Observable<Car> {
     return this.http.delete(`${API_URL}/car/` + car.uuid).map(response => response.json());
   }
 }

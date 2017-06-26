@@ -1,4 +1,4 @@
-import {Owner} from "./owner";
+import {Owner} from './owner';
 export class Invoice {
   constructor(public uuid: String,
               public date: Date,

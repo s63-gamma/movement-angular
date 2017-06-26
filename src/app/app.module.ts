@@ -19,6 +19,8 @@ import {BillService} from './bill.service';
 import {AgmCoreModule} from '@agm/core';
 import {PoliceComponent} from './police/police.component';
 import {HttpService} from './http.service';
+import {Ng2SmartTableModule} from 'ng2-smart-table';
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import {HttpService} from './http.service';
     ModalModule.forRoot(),
     TypeaheadModule.forRoot(),
     ModalModule.forRoot(),
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    Ng2SmartTableModule
   ],
   providers: [
     InvoiceService,
@@ -52,7 +55,8 @@ import {HttpService} from './http.service';
     CarService,
     TrackerService,
     BillService,
-    HttpService
+    HttpService,
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

@@ -17,6 +17,25 @@ export class CarComponent implements OnInit, OnDestroy {
   public selectedCar: Car = null;
   public gpsPoints: GpsPoint[] = [];
   @ViewChild('map') public mapView;
+  public settings = {
+    columns: {
+      licensePlate: {
+        title: 'License Plate'
+      },
+      buildingYear: {
+        title: 'Building Year'
+      },
+      weight: {
+        title: 'Weight'
+      },
+      carType: {
+        title: 'Type'
+      }
+    },
+    actions: {
+      position: 'right'
+    }
+  };
 
   constructor(public carService: CarService) {
   }
@@ -64,21 +83,5 @@ export class CarComponent implements OnInit, OnDestroy {
     const gpsPoint = car.gpsPoints[0];
     this.mapView._mapsWrapper.panTo({lat: gpsPoint.latitude, lng: gpsPoint.longitude});
     this.mapView._mapsWrapper.setZoom(12);
-  }
-
-  public deleteCar(car: Car) {
-    let observable: Observable<Car>;
-
-    observable = this.carService.deleteCar(car);
-    console.log(observable);
-    this.cars.splice(this.cars.lastIndexOf(car), 1);
-
-    Observable.forkJoin(observable).subscribe(result => {
-      console.log(result);
-    });
-  }
-
-  public createCar() {
-    this.cars.splice(0, 0, new Car(null, null, null, null, null, null, [], null));
   }
 }

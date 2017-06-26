@@ -5,9 +5,12 @@ export class Car {
               public licensePlate: String,
               public weight: number,
               public mileage: number,
-              public type: String,
+              public carType: String,
               public gpsPoints?: GpsPoint[],
-              public latestGpsPoint?: GpsPoint) {
+              public latestGpsPoint?: GpsPoint,
+              public latestLatitude: String | Number = 'UNKNOWN',
+              public latestLongitude: String | Number = 'UNKNOWN'
+  ) {
 
   }
 }

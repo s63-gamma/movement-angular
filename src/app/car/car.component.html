@@ -39,84 +39,22 @@
               </agm-marker>
             </div>
           </div>
-          <!--<sebm-google-map-circle-->
-          <!--*ngFor="let region of regions; let i = index"-->
-          <!--(circleClick)="selectedCar = region;"-->
-          <!--(circleDblClick)="showModal(region)"-->
-          <!--(radiusChange)="radiusChanged(region,$event)"-->
-          <!--(centerChange)="locationChanged(region, $event)"-->
-          <!--[latitude]="region.latitude"-->
-          <!--[longitude]="region.longitude"-->
-          <!--[radius]="region.radius"-->
-          <!--[circleDraggable]="this.selectedCar && this.selectedCar.uuid == region.uuid"-->
-          <!--[editable]="this.selectedCar && this.selectedCar.uuid == region.uuid"-->
-          <!--[zIndex]="i"-->
-          <!--[fillColor]="this.selectedCar && this.selectedCar.uuid == region.uuid ? 'green': calculateColor(region)"></sebm-google-map-circle>-->
-          <!--<sebm-google-map-marker *ngFor="let region of regions" [latitude]="region.latitude" [longitude]="region.longitude"></sebm-google-map-marker>-->
         </agm-map>
-        <br>
-        <!--<button (click)="save()" class="btn btn-primary btn-block">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>-->
-        <!--<button (click)="createCar()" class="btn btn-success btn-block">New <i class="fa fa-plus" aria-hidden="true"></i></button>-->
-        <br>
       </div>
       <div class="col-sm-3 sideview">
-        <tabset>
-          <tab heading="List" class="sideview-content">
-            <ul class="list-group">
-              <li *ngFor="let car of cars" class="list-group-item justify-content-between" (click)="selectedCar = car"
-                  (dblclick)="gotoCar(car)"><input type="text" name="{{car.licensePlate}}" [(ngModel)]="car.licensePlate" size="8">
-                <td><button (click)="deleteCar(car)" class="btn btn-danger">Delete</button></td>
-
-              </li>
-            </ul>
-          </tab>
-          <!--<tab heading="Info" class="sideview-content">-->
-          <!--<div *ngIf="selectedCar" class="card">-->
-          <!--<div class="card-header">Name: {{selectedCar.name}}</div>-->
-          <!--<div class="card-block">-->
-          <!--<p class="card-text">Latitude: {{selectedCar.latitude}}</p>-->
-          <!--<p class="card-text">Longitude: {{selectedCar.longitude}}</p>-->
-          <!--<p class="card-text">Radius: {{selectedCar.radius}}</p>-->
-          <!--<p class="card-text">Cost Multiplier: {{selectedCar.costMultiplier}}</p>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<p *ngIf="!selectedCar">Pick a region to view it's information</p>-->
-          <!--</tab>-->
-        </tabset>
-        <!--<button (click)="selectedCar = null" [disabled]="selectedCar === null" class="btn btn-danger btn-block">-->
-        <!--Clear selection <i class="fa fa-times" aria-hidden="true"></i></button>-->
-        <!--<button (click)="showModal(selectedCar)" [disabled]="selectedCar === null"-->
-        <!--class="btn btn-info btn-block">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button>-->
-        <!--<button (click)="save(selectedCar); selectedCar = null" [disabled]="selectedCar === null"-->
-        <!--class="btn btn-primary btn-block">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>-->
-        <!--<button (click)="createRegion()" [disabled]="selectedCar !== null" class="btn btn-success btn-block">New<i-->
-        <!--class="fa fa-plus" aria-hidden="true"></i></button>-->
+        <ul class="list-group">
+          <li *ngFor="let car of cars" class="list-group-item justify-content-between" (click)="selectedCar = car"
+              (dblclick)="gotoCar(car)">
+            {{car.licensePlate}} - {{car.carType}}
+          </li>
+        </ul>
       </div>
     </div>
   </tab>
   <tab heading="Details">
     <div class="card">
       <div class="card-body">
-        <table class="table table-sm card-text">
-          <thead>
-          <tr>
-            <th>License Plate</th>
-            <!--<th>Longitude</th>-->
-            <!--<th>Latitude</th>-->
-            <!--<th>Radius</th>-->
-            <!--<th>Cost Multiplier</th>-->
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let car of cars">
-            <th scope="row">{{car.licensePlate}}</th>
-            <!--<td>{{region.longitude}}</td>-->
-            <!--<td>{{region.latitude}}</td>-->
-            <!--<td>{{region.radius}}</td>-->
-            <!--<td>{{region.costMultiplier}}</td>-->
-          </tr>
-          </tbody>
-        </table>
+        <ng2-smart-table [settings]="settings" [source]="cars"></ng2-smart-table>
       </div>
     </div>
   </tab>

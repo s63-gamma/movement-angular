@@ -3,3 +3,8 @@ $height: 800px;
 .sebm-google-map-container {
   height: $height;
 }
+
+.sideview {
+  height: $height;
+  overflow-y:scroll;
+}

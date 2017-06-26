@@ -8,6 +8,10 @@ import {BillComponent} from "./bill/bill.component";
 import {CarComponent} from "./car/car.component";
 
 const appRoutes: Routes = [
+  { path: '',
+    redirectTo: '/car',
+    pathMatch: 'full'
+  },
   {
     component: InvoiceComponent,
     path: 'invoice'
@@ -35,4 +39,4 @@ const appRoutes: Routes = [
 
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
+export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes, {useHash: true});

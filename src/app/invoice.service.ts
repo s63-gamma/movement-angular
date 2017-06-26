@@ -24,12 +24,12 @@ export class InvoiceService {
       .map(response => response.json());
   }
 
-  mailInvoices(id: String) {
+  mailInvoice(id: String) {
     return this.http.get(`${API_URL}/mailInvoice/` + id)
       .map(res => res.json());
   }
 
-  delete(invoice: Invoice): Observable<Invoice> {
+  deleteInvoice(invoice: Invoice): Observable<Invoice> {
     return this.http.delete(`${API_URL}/invoice/` + invoice.uuid).map(response => response.json());
   }
 }

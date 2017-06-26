@@ -18,9 +18,26 @@ export class PoliceComponent implements OnInit {
   public stolenCars: Car[] = [];
   public cars: Car[] = [];
   public selectedCar: Car = null;
-  public markedCar: String = "";
+  public markedCar: String = '';
   public gpsPoints: GpsPoint[] = [];
   @ViewChild('map') public mapView;
+  public settings = {
+    selectMode: 'multi',
+    columns: {
+      licensePlate: {
+        title: 'License Plate'
+      },
+      latestLongitude: {
+        title: 'Last Known Longitude'
+      },
+      latestLatitude: {
+        title: 'Last Known Latitude'
+      }
+    },
+    actions: {
+      position: 'right'
+    }
+  };
 
   constructor(public carService: CarService) {
   }
@@ -31,7 +48,7 @@ export class PoliceComponent implements OnInit {
   }
 
   private getCars() {
-    this.carService.query().subscribe(cars => {
+    this.carService.queryByStolenCars(false).subscribe(cars => {
       this.cars = cars;
     });
   }
@@ -40,7 +57,7 @@ export class PoliceComponent implements OnInit {
     this.carService.queryByStolenCars().subscribe(cars => {
       this.stolenCars = this.carService.apply(cars);
       cars.forEach(car => car.gpsPoints.forEach(gpsPoint => this.gpsPoints.push(gpsPoint)));
-      console.log(this.stolenCars)
+      console.log(this.stolenCars);
     });
   }
 
@@ -51,8 +68,10 @@ export class PoliceComponent implements OnInit {
     this.mapView._mapsWrapper.setZoom(12);
   }
 
-  public selectMarkedCar(event) {
-    console.log(event);
+  public reportCar(licensePlate: string) {
+    this.carService.reportStolenCar(licensePlate).subscribe(() => {
+      console.log('Marked stolen');
+      // window.location.reload();
+    });
   }
-
 }

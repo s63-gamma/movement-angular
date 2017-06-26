@@ -21,6 +21,7 @@ import {PoliceComponent} from './police/police.component';
 import {HttpService} from './http.service';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {HashLocationStrategy, LocationStrategy} from "@angular/common";
     TrackerComponent,
     BillComponent,
     CarComponent,
-    PoliceComponent
+    PoliceComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

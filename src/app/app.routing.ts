@@ -6,10 +6,11 @@ import {PoliceComponent} from './police/police.component';
 import {TrackerComponent} from './tracker/tracker.component';
 import {BillComponent} from "./bill/bill.component";
 import {CarComponent} from "./car/car.component";
+import {LoginComponent} from "./login/login.component";
 
 const appRoutes: Routes = [
   { path: '',
-    redirectTo: '/car',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   {
@@ -35,6 +36,10 @@ const appRoutes: Routes = [
   {
     component: PoliceComponent,
     path: 'police'
+  },
+  {
+    component: LoginComponent,
+    path: 'login'
   }
 
 ];

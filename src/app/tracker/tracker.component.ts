@@ -10,7 +10,7 @@ import {SMART_TABLE_SETTINGS} from '../constants';
   styleUrls: ['tracker.component.scss']
 })
 export class TrackerComponent implements OnInit {
-  private trackers: Tracker[];
+  public trackers: Tracker[];
   public settings = Object.assign({}, SMART_TABLE_SETTINGS, {
     columns: {
       uuid: {

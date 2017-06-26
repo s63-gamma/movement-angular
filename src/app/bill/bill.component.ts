@@ -11,8 +11,7 @@ import {SMART_TABLE_SETTINGS} from '../constants';
   styleUrls: ['./bill.component.scss']
 })
 export class BillComponent implements OnInit {
-
-  private owners: Owner[];
+  public owners: Owner[];
   public settings = Object.assign({}, SMART_TABLE_SETTINGS, {
     columns: {
       username: {

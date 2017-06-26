@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Car} from "../car";
+import {Car} from '../car';
 import {CarService} from '../car.service';
-import {GpsPoint} from "../gps-point";
-import {HttpService} from "../http.service";
+import {GpsPoint} from '../gps-point';
+import {HttpService} from '../http.service';
 
 @Component({
   selector: 'app-police',

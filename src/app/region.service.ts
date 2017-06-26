@@ -17,8 +17,13 @@ export class RegionService {
       .map(response => response.json()._embedded.region);
   }
 
-  upsert(region: Region): Observable<Region> {
+  public upsert(region: Region): Observable<Region> {
     return this.http.post(`${API_URL}/region`, region)
+      .map(response => response.json());
+  }
+
+  public deleteRegion(region: Region): Observable<Region> {
+    return this.http.delete(`${API_URL}/region/${region.uuid}`)
       .map(response => response.json());
   }
 }

@@ -1,12 +1,16 @@
-<br>
-<ng2-smart-table [settings]="settings" [source]="invoices" (userRowSelect)="rowSelected($event)"></ng2-smart-table>
-
+<ng2-smart-table
+  [source]="invoices"
+  [settings]="settings"
+  (editConfirm)="confirmEdit($event)"
+  (createConfirm)="confirmCreate($event)"
+  (deleteConfirm)="confirmDelete($event)"
+  (userRowSelect)="rowSelected($event)">
+</ng2-smart-table>
 <div *ngFor="let alert of alerts">
   <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
 </div>
 <br>
-<button (click)="save()" class="btn btn-primary btn-block">Save Changes <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
-<button (click)="mailInvoices(selectedInvoices)" class="btn btn-info btn-block">Mail selected</button>
+<!--<button (click)="save()" class="btn btn-primary btn-block">Save Changes <i class="fa fa-floppy-o" aria-hidden="true"></i></button>-->
+<button (click)="mailInvoices(selectedInvoices)" [disabled]="selectedInvoices.length === 0" class="btn btn-info btn-block">Mail selected</button>
 <!--<button (click)="createInvoice()" class="btn btn-success btn-block">New <i class="fa fa-plus" aria-hidden="true"></i></button>-->
-<br>
 

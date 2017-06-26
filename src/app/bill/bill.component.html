@@ -1,30 +1,7 @@
-<br>
-<table class="row-border hover">
-<thead>
-  <tr>
-    <th>Username</th>
-    <th>Emailadres</th>
-    <th>Name</th>
-    <th>Surname</th>
-    <th>Phonenumber</th>
-    <th>Residence</th>
-    <th>Delete</th>
-  </tr>
-
-  </thead>
-  <tbody>
-  <tr *ngFor="let owner of owners">
-    <td><input type="text" name="{{owner.username}}" [(ngModel)]="owner.username" size="14"><p style="font-size: 0">{{owner.username}} </p></td>
-    <td><input type="text" name="{{owner.emailadres}}" [(ngModel)]="owner.emailadres"><p style="font-size: 0">{{owner.emailadres}}</p></td>
-    <td><input type="text" name="{{owner.name}}" [(ngModel)]="owner.name" size="10"><p style="font-size: 0">{{owner.name}}</p></td>
-    <td><input type="text" name="{{owner.surname}}" [(ngModel)]="owner.surname" size="10"><p style="font-size: 0">{{owner.surname}}</p></td>
-    <td><input type="text" name="{{owner.phoneNumber}}" [(ngModel)]="owner.phoneNumber"><p style="font-size: 0">{{owner.phoneNumber}}</p></td>
-    <td><input type="text" name="{{owner.residence}}" [(ngModel)]="owner.residence"><p style="font-size: 0">{{owner.residence}}</p></td>
-    <td><button (click)="delete(owner)" class="btn btn-danger">Delete</button></td>
-  </tr>
-  </tbody>
-</table>
-<br>
-<button (click)="save()" class="btn btn-primary btn-block">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
-<button (click)="createOwner()" class="btn btn-success btn-block">New <i class="fa fa-plus" aria-hidden="true"></i></button>
-<br>
+<ng2-smart-table
+  [source]="owners"
+  [settings]="settings"
+  (editConfirm)="confirmEdit($event)"
+  (createConfirm)="confirmCreate($event)"
+  (deleteConfirm)="confirmDelete($event)">
+</ng2-smart-table>

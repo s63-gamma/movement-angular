@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {TrackerService} from '../tracker.service';
 import {Tracker} from '../tracker';
-import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import {SMART_TABLE_SETTINGS} from '../constants';
 
 @Component({
   selector: 'app-tracker',
@@ -11,6 +11,19 @@ import 'rxjs/add/operator/map';
 })
 export class TrackerComponent implements OnInit {
   private trackers: Tracker[];
+  public settings = Object.assign({}, SMART_TABLE_SETTINGS, {
+    columns: {
+      uuid: {
+        title: 'Uuid'
+      },
+      authorisationCode: {
+        title: 'Authorisation Code'
+      },
+      type: {
+        title: 'Type'
+      }
+    }
+  });
 
   constructor(private trackerService: TrackerService) {
   }
@@ -26,31 +39,28 @@ export class TrackerComponent implements OnInit {
     });
   }
 
-  public save() {
-    const observables: Observable<Tracker>[] = [];
-    this.trackers.forEach(tracker => {
-      observables.push(this.trackerService.update(tracker));
-    });
-
-    Observable.forkJoin(observables).subscribe(result => {
-      console.log(result);
-    });
+  public save(tracker: Tracker) {
+    this.trackerService.update(tracker).subscribe();
   }
 
   public deleteTracker(tracker: Tracker) {
-    let observable: Observable<Tracker>;
-
-    observable = this.trackerService.delete(tracker);
-    console.log(observable);
-    this.trackers.splice(this.trackers.lastIndexOf(tracker), 1);
-
-    Observable.forkJoin(observable).subscribe(result => {
-      console.log(result);
-    });
+   this.trackerService.deleteTracker(tracker).subscribe();
   }
 
-  public createTracker() {
-    this.trackers.splice(0, 0, new Tracker(null, 1, null, null));
+  public confirmEdit(event) {
+    if (event.data !== event.newData) {
+      event.confirm.resolve();
+      this.save(event.newData);
+    }
   }
 
+  public confirmCreate(event) {
+    event.confirm.resolve();
+    this.save(event.newData);
+  }
+
+  public confirmDelete(event) {
+    event.confirm.resolve();
+    this.deleteTracker(event.data);
+  }
 }

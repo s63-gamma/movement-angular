@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {BillService} from '../bill.service';
 import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Rx';
 
 import {Owner} from '../owner';
-import {Car} from '../car';
+import {SMART_TABLE_SETTINGS} from '../constants';
 
 @Component({
   selector: 'app-bill',
@@ -14,6 +13,29 @@ import {Car} from '../car';
 export class BillComponent implements OnInit {
 
   private owners: Owner[];
+  public settings = Object.assign({}, SMART_TABLE_SETTINGS, {
+    columns: {
+      username: {
+        title: 'Username'
+      },
+      emailadres: {
+        title: 'Email'
+      },
+      name: {
+        title: 'First Name'
+      },
+      surname: {
+        title: 'Surname'
+      },
+      phoneNumber: {
+        title: 'Phone Number'
+      },
+      residence: {
+        title: 'Residence'
+      }
+    }
+  });
+
 
   constructor(private billService: BillService) {
   }
@@ -28,7 +50,7 @@ export class BillComponent implements OnInit {
     });
   }
 
-  public save() {
+  public saveAll() {
     const observables: Observable<Owner>[] = [];
     this.owners.forEach(owner => {
       observables.push(this.billService.upsert(owner));
@@ -39,19 +61,27 @@ export class BillComponent implements OnInit {
     });
   }
 
-  public delete(owner: Owner) {
-    let observable: Observable<Owner>;
-
-    observable = this.billService.delete(owner);
-    console.log(observable);
-    this.owners.splice(this.owners.lastIndexOf(owner), 1);
-
-    Observable.forkJoin(observable).subscribe(result => {
-      console.log(result);
-    });
+  public save(owner: Owner) {
+    this.billService.upsert(owner).subscribe();
   }
 
-  public createOwner() {
-    this.owners.splice(0, 0, new Owner(null, null, null, null, null, null, null, [Car]));
+  public deleteOwner(owner: Owner) {
+    this.billService.delete(owner).subscribe();
+  }
+
+  public confirmEdit(event) {
+    if (event.data !== event.newData) {
+      event.confirm.resolve();
+      this.save(event.newData);
+    }
+  }
+  public confirmCreate(event) {
+    event.confirm.resolve();
+    this.save(event.newData);
+  }
+
+  public confirmDelete(event) {
+    event.confirm.resolve();
+    this.deleteOwner(event.data);
   }
 }

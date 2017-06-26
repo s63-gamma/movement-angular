@@ -4,6 +4,7 @@ import {Car} from '../car';
 import {GpsPoint} from '../gps-point';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
+import {SMART_TABLE_SETTINGS} from '../constants';
 
 @Component({
   selector: 'app-car',
@@ -17,7 +18,7 @@ export class CarComponent implements OnInit, OnDestroy {
   public selectedCar: Car = null;
   public gpsPoints: GpsPoint[] = [];
   @ViewChild('map') public mapView;
-  public settings = {
+  public settings = Object.assign({}, SMART_TABLE_SETTINGS, {
     columns: {
       licensePlate: {
         title: 'License Plate'
@@ -30,12 +31,15 @@ export class CarComponent implements OnInit, OnDestroy {
       },
       carType: {
         title: 'Type'
+      },
+      latestLatitude: {
+        title: 'Last Known Latitude'
+      },
+      latestLongitude: {
+        title: 'Last Known Longitude'
       }
-    },
-    actions: {
-      position: 'right'
     }
-  };
+  });
 
   constructor(public carService: CarService) {
   }
@@ -60,15 +64,12 @@ export class CarComponent implements OnInit, OnDestroy {
     });
   }
 
-  public save() {
-    const observables: Observable<Car>[] = [];
-    this.cars.forEach(car => {
-      observables.push(this.carService.upsert(car));
-    });
+  public save(car: Car) {
+    this.carService.upsert(car).subscribe();
+  }
 
-    Observable.forkJoin(observables).subscribe(result => {
-      console.log(result);
-    });
+  public deleteCar(car: Car) {
+    this.carService.deleteCar(car).subscribe();
   }
 
   private autoRefresh() {
@@ -83,5 +84,22 @@ export class CarComponent implements OnInit, OnDestroy {
     const gpsPoint = car.gpsPoints[0];
     this.mapView._mapsWrapper.panTo({lat: gpsPoint.latitude, lng: gpsPoint.longitude});
     this.mapView._mapsWrapper.setZoom(12);
+  }
+
+  public confirmEdit(event) {
+    if (event.data !== event.newData) {
+      event.confirm.resolve();
+      this.save(event.newData);
+    }
+  }
+
+  public confirmCreate(event) {
+    event.confirm.resolve();
+    this.save(event.newData);
+  }
+
+  public confirmDelete(event) {
+    event.confirm.resolve();
+    this.deleteCar(event.data);
   }
 }

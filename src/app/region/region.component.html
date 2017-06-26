@@ -147,26 +147,13 @@
   <tab heading="Details">
     <div class="card">
       <div class="card-body">
-        <table class="table table-sm card-text">
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Longitude</th>
-            <th>Latitude</th>
-            <th>Radius</th>
-            <th>Cost Multiplier</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let region of regions" (click)="showModal(region)">
-            <th scope="row">{{region.name}}</th>
-            <td>{{region.longitude}}</td>
-            <td>{{region.latitude}}</td>
-            <td>{{region.radius}}</td>
-            <td>{{region.costMultiplier}}</td>
-          </tr>
-          </tbody>
-        </table>
+        <ng2-smart-table
+          [source]="regions"
+          [settings]="settings"
+          (editConfirm)="confirmEdit($event)"
+          (createConfirm)="confirmCreate($event)"
+          (deleteConfirm)="confirmDelete($event)">
+        </ng2-smart-table>
       </div>
     </div>
   </tab>

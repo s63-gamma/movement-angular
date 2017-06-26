@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {InvoiceService} from '../invoice.service';
 import {Invoice} from '../invoice';
-import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import {SMART_TABLE_SETTINGS} from '../constants';
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
@@ -12,7 +12,7 @@ export class InvoiceComponent implements OnInit {
   public invoices: Invoice[] = [];
   public selectedInvoices: Invoice[] = [];
   public alerts: any = [];
-  public settings = {
+  public settings = Object.assign({}, SMART_TABLE_SETTINGS, {
     selectMode: 'multi',
     columns: {
       uuid: {
@@ -30,11 +30,8 @@ export class InvoiceComponent implements OnInit {
       status: {
         title: 'Status'
       },
-    },
-    actions: {
-      position: 'right'
     }
-  };
+  });
 
   constructor(private invoiceService: InvoiceService) {
   }
@@ -51,15 +48,12 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-  public save() {
-    const observables: Observable<Invoice>[] = [];
-    this.invoices.forEach(invoice => {
-      observables.push(this.invoiceService.update(invoice));
-    });
+  public save(invoice: Invoice) {
+    this.invoiceService.update(invoice).subscribe();
+  }
 
-    Observable.forkJoin(observables).subscribe(result => {
-      console.log(result);
-    });
+  public deleteInvoice(invoice: Invoice) {
+    this.invoiceService.deleteInvoice(invoice).subscribe();
   }
 
   public mailInvoices(invoices: Invoice[]) {
@@ -78,7 +72,25 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
+  public confirmEdit(event) {
+    if (event.data !== event.newData) {
+      event.confirm.resolve();
+      this.save(event.newData);
+    }
+  }
+
+  public confirmCreate(event) {
+    event.confirm.resolve();
+    this.save(event.newData);
+  }
+
+  public confirmDelete(event) {
+    event.confirm.resolve();
+    this.deleteInvoice(event.data);
+  }
+
   public rowSelected(event) {
     this.selectedInvoices = event.selected;
+    console.log(this.selectedInvoices);
   }
 }

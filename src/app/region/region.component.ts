@@ -4,6 +4,7 @@ import {Region} from '../region';
 import {Observable} from 'rxjs/Rx';
 import {ModalDirective} from 'ng2-bootstrap';
 import * as faker from 'faker';
+import {SMART_TABLE_SETTINGS} from "../constants";
 
 
 @Component({
@@ -16,6 +17,25 @@ export class RegionComponent implements OnInit {
   public selectedRegion: Region = null;
   @ViewChild('childModal') public childModal: ModalDirective;
   @ViewChild('map') public mapView;
+  public settings = Object.assign({}, SMART_TABLE_SETTINGS, {
+    columns: {
+      name: {
+        title: 'Name'
+      },
+      longitude: {
+        title: 'Longitude'
+      },
+      latitude: {
+        title: 'Latitude'
+      },
+      radius: {
+        title: 'Radius'
+      },
+      costMultiplier: {
+        title: 'Cost Multiplier'
+      },
+    }
+  });
 
   constructor(private regionService: RegionService) {
   }
@@ -99,7 +119,26 @@ export class RegionComponent implements OnInit {
     Observable.forkJoin(observables).subscribe(result => {
       console.log(result);
     });
-
   }
 
+  public deleteRegion(region: Region) {
+    this.regionService.deleteRegion(region).subscribe();
+  }
+
+  public confirmEdit(event) {
+    if (event.data !== event.newData) {
+      event.confirm.resolve();
+      this.save(event.newData);
+    }
+  }
+
+  public confirmCreate(event) {
+    event.confirm.resolve();
+    this.save(event.newData);
+  }
+
+  public confirmDelete(event) {
+    event.confirm.resolve();
+    this.deleteRegion(event.data);
+  }
 }

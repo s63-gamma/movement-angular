@@ -1,26 +1,7 @@
-<br>
-<table class="row-border hover">
-<!--<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">-->
-<thead>
-  <tr>
-    <th>ID</th>
-    <th>Authorisation Code</th>
-    <th>Serial Number</th>
-    <th>Type</th>
-    <th>Delete tracker</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let tracker of trackers">
-    <th scope="row">{{tracker.uuid}}</th>
-    <td><input type="text" name="{{tracker.authorisationCode}}" [(ngModel)]="tracker.authorisationCode" size="10"><p style="font-size: 0">{{tracker.authorisationCode}} </p></td>
-    <td><input type="text" name="{{tracker.serialNumber}}" [(ngModel)]="tracker.serialNumber" size="10"><p style="font-size: 0">{{tracker.serialNumber}} </p></td>
-    <td><input type="text" name="{{tracker.type}}" [(ngModel)]="tracker.type" size="6"><p style="font-size: 0">{{tracker.type}} </p></td>
-    <td><button (click)="deleteTracker(tracker)" class="btn btn-danger">Delete</button></td>
-  </tr>
-  </tbody>
-</table>
-<br>
-<button (click)="save()" class="btn btn-primary btn-block">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
-<button (click)="createTracker()" class="btn btn-success btn-block">New <i class="fa fa-plus" aria-hidden="true"></i></button>
-<br>
+<ng2-smart-table
+  [source]="trackers"
+  [settings]="settings"
+  (editConfirm)="confirmEdit($event)"
+  (createConfirm)="confirmCreate($event)"
+  (deleteConfirm)="confirmDelete($event)">
+</ng2-smart-table>
